@@ -1,0 +1,1230 @@
+{
+  "version": "0.2.0",
+  "cards": [
+    {
+      "id": "water",
+      "name": "Water",
+      "icon": "Droplets",
+      "tone": "blue",
+      "tags": [
+        "water",
+        "liquid"
+      ],
+      "depth": 0,
+      "era": "stone",
+      "artKey": "cards/water"
+    },
+    {
+      "id": "earth",
+      "name": "Earth",
+      "icon": "Mountain",
+      "tone": "ochre",
+      "tags": [
+        "mineral",
+        "earth"
+      ],
+      "depth": 0,
+      "era": "stone",
+      "artKey": "cards/earth"
+    },
+    {
+      "id": "air",
+      "name": "Air",
+      "icon": "Wind",
+      "tone": "blue",
+      "tags": [
+        "air"
+      ],
+      "depth": 0,
+      "era": "stone",
+      "artKey": "cards/air"
+    },
+    {
+      "id": "wood",
+      "name": "Wood",
+      "icon": "TreePine",
+      "tone": "green",
+      "tags": [
+        "organic",
+        "wood",
+        "solid"
+      ],
+      "depth": 0,
+      "era": "stone",
+      "artKey": "cards/wood"
+    },
+    {
+      "id": "seed",
+      "name": "Seed",
+      "icon": "Sprout",
+      "tone": "green",
+      "tags": [
+        "seed",
+        "life"
+      ],
+      "depth": 0,
+      "era": "stone",
+      "artKey": "cards/seed"
+    },
+    {
+      "id": "stone",
+      "name": "Stone",
+      "icon": "Gem",
+      "tone": "slate",
+      "tags": [
+        "mineral",
+        "solid"
+      ],
+      "depth": 0,
+      "era": "stone",
+      "artKey": "cards/stone"
+    },
+    {
+      "id": "clay",
+      "name": "Clay",
+      "icon": "Layers",
+      "tone": "ochre",
+      "tags": [
+        "earth",
+        "moldable"
+      ],
+      "depth": 1,
+      "era": "stone",
+      "artKey": "cards/clay"
+    },
+    {
+      "id": "steam",
+      "name": "Steam",
+      "icon": "Cloud",
+      "tone": "blue",
+      "tags": [
+        "air",
+        "energy",
+        "water"
+      ],
+      "depth": 3,
+      "era": "stone",
+      "artKey": "cards/steam"
+    },
+    {
+      "id": "plant",
+      "name": "Plant",
+      "icon": "Leaf",
+      "tone": "green",
+      "tags": [
+        "organic",
+        "life",
+        "plant"
+      ],
+      "depth": 1,
+      "era": "stone",
+      "artKey": "cards/plant"
+    },
+    {
+      "id": "garden",
+      "name": "Garden",
+      "icon": "Flower2",
+      "tone": "green",
+      "tags": [
+        "life",
+        "food",
+        "plant"
+      ],
+      "depth": 1,
+      "era": "stone",
+      "artKey": "cards/garden"
+    },
+    {
+      "id": "charcoal",
+      "name": "Charcoal",
+      "icon": "Flame",
+      "tone": "slate",
+      "tags": [
+        "fuel",
+        "mineral"
+      ],
+      "depth": 3,
+      "era": "stone",
+      "artKey": "cards/charcoal"
+    },
+    {
+      "id": "brick",
+      "name": "Brick",
+      "icon": "BrickWall",
+      "tone": "coral",
+      "tags": [
+        "solid",
+        "structure"
+      ],
+      "depth": 3,
+      "era": "stone",
+      "artKey": "cards/brick"
+    },
+    {
+      "id": "lava",
+      "name": "Lava",
+      "icon": "Flame",
+      "tone": "coral",
+      "tags": [
+        "heat",
+        "mineral",
+        "liquid"
+      ],
+      "depth": 3,
+      "era": "stone",
+      "artKey": "cards/lava"
+    },
+    {
+      "id": "dust",
+      "name": "Dust",
+      "icon": "Wind",
+      "tone": "ochre",
+      "tags": [
+        "mineral",
+        "air"
+      ],
+      "depth": 1,
+      "era": "stone",
+      "artKey": "cards/dust"
+    },
+    {
+      "id": "sand",
+      "name": "Sand",
+      "icon": "Mountain",
+      "tone": "ochre",
+      "tags": [
+        "mineral",
+        "sand"
+      ],
+      "depth": 1,
+      "era": "stone",
+      "artKey": "cards/sand"
+    },
+    {
+      "id": "tool",
+      "name": "Tool",
+      "icon": "Hammer",
+      "tone": "slate",
+      "tags": [
+        "tool",
+        "solid"
+      ],
+      "depth": 1,
+      "era": "stone",
+      "artKey": "cards/tool"
+    },
+    {
+      "id": "axe",
+      "name": "Axe",
+      "icon": "Axe",
+      "tone": "slate",
+      "tags": [
+        "tool",
+        "solid"
+      ],
+      "depth": 5,
+      "era": "bronze",
+      "artKey": "cards/axe"
+    },
+    {
+      "id": "light",
+      "name": "Light",
+      "icon": "Sun",
+      "tone": "ochre",
+      "tags": [
+        "energy",
+        "light"
+      ],
+      "depth": 3,
+      "era": "industrial",
+      "artKey": "cards/light"
+    },
+    {
+      "id": "raft",
+      "name": "Raft",
+      "icon": "Sailboat",
+      "tone": "green",
+      "tags": [
+        "transport",
+        "wood",
+        "solid"
+      ],
+      "depth": 1,
+      "era": "stone",
+      "artKey": "cards/raft"
+    },
+    {
+      "id": "pottery",
+      "name": "Pottery",
+      "icon": "Amphora",
+      "tone": "ochre",
+      "tags": [
+        "container",
+        "solid"
+      ],
+      "depth": 3,
+      "era": "stone",
+      "artKey": "cards/pottery"
+    },
+    {
+      "id": "glass",
+      "name": "Glass",
+      "icon": "Diamond",
+      "tone": "blue",
+      "tags": [
+        "transparent",
+        "solid"
+      ],
+      "depth": 3,
+      "era": "bronze",
+      "artKey": "cards/glass"
+    },
+    {
+      "id": "tea",
+      "name": "Tea",
+      "icon": "Coffee",
+      "tone": "green",
+      "tags": [
+        "food",
+        "liquid"
+      ],
+      "depth": 3,
+      "era": "stone",
+      "artKey": "cards/tea"
+    },
+    {
+      "id": "marsh",
+      "name": "Marsh",
+      "icon": "Sprout",
+      "tone": "green",
+      "tags": [
+        "life",
+        "water",
+        "plant"
+      ],
+      "depth": 2,
+      "era": "stone",
+      "artKey": "cards/marsh"
+    },
+    {
+      "id": "forest",
+      "name": "Forest",
+      "icon": "Trees",
+      "tone": "green",
+      "tags": [
+        "life",
+        "wood",
+        "organic"
+      ],
+      "depth": 2,
+      "era": "stone",
+      "artKey": "cards/forest"
+    },
+    {
+      "id": "farm",
+      "name": "Farm",
+      "icon": "Wheat",
+      "tone": "green",
+      "tags": [
+        "food",
+        "structure",
+        "life"
+      ],
+      "depth": 2,
+      "era": "stone",
+      "artKey": "cards/farm"
+    },
+    {
+      "id": "house",
+      "name": "House",
+      "icon": "House",
+      "tone": "coral",
+      "tags": [
+        "structure",
+        "solid"
+      ],
+      "depth": 4,
+      "era": "stone",
+      "artKey": "cards/house"
+    },
+    {
+      "id": "tower",
+      "name": "Tower",
+      "icon": "Castle",
+      "tone": "coral",
+      "tags": [
+        "structure",
+        "solid"
+      ],
+      "depth": 4,
+      "era": "stone",
+      "artKey": "cards/tower"
+    },
+    {
+      "id": "lens",
+      "name": "Lens",
+      "icon": "ScanEye",
+      "tone": "blue",
+      "tags": [
+        "tool",
+        "transparent"
+      ],
+      "depth": 5,
+      "era": "bronze",
+      "artKey": "cards/lens"
+    },
+    {
+      "id": "engine",
+      "name": "Engine",
+      "icon": "Cog",
+      "tone": "slate",
+      "tags": [
+        "machine",
+        "energy"
+      ],
+      "depth": 5,
+      "era": "industrial",
+      "artKey": "cards/engine"
+    },
+    {
+      "id": "steamboat",
+      "name": "Steamboat",
+      "icon": "Ship",
+      "tone": "blue",
+      "tags": [
+        "machine",
+        "transport"
+      ],
+      "depth": 5,
+      "era": "industrial",
+      "artKey": "cards/steamboat"
+    },
+    {
+      "id": "kite",
+      "name": "Kite",
+      "icon": "Send",
+      "tone": "green",
+      "tags": [
+        "air",
+        "transport"
+      ],
+      "depth": 1,
+      "era": "stone",
+      "artKey": "cards/kite"
+    },
+    {
+      "id": "reservoir",
+      "name": "Reservoir",
+      "icon": "Waves",
+      "tone": "blue",
+      "tags": [
+        "container",
+        "water",
+        "structure"
+      ],
+      "depth": 4,
+      "era": "stone",
+      "artKey": "cards/reservoir"
+    },
+    {
+      "id": "greenhouse",
+      "name": "Greenhouse",
+      "icon": "Flower2",
+      "tone": "green",
+      "tags": [
+        "structure",
+        "life",
+        "food"
+      ],
+      "depth": 5,
+      "era": "stone",
+      "artKey": "cards/greenhouse"
+    },
+    {
+      "id": "telescope",
+      "name": "Telescope",
+      "icon": "Telescope",
+      "tone": "blue",
+      "tags": [
+        "tool",
+        "science"
+      ],
+      "depth": 5,
+      "era": "bronze",
+      "artKey": "cards/telescope"
+    },
+    {
+      "id": "prism",
+      "name": "Prism",
+      "icon": "Rainbow",
+      "tone": "blue",
+      "tags": [
+        "light",
+        "science"
+      ],
+      "depth": 4,
+      "era": "bronze",
+      "artKey": "cards/prism"
+    },
+    {
+      "id": "wheel",
+      "name": "Wheel",
+      "icon": "CircleDot",
+      "tone": "ochre",
+      "tags": [
+        "tool",
+        "transport"
+      ],
+      "depth": 2,
+      "era": "stone",
+      "artKey": "cards/wheel"
+    },
+    {
+      "id": "vehicle",
+      "name": "Vehicle",
+      "icon": "Car",
+      "tone": "slate",
+      "tags": [
+        "machine",
+        "transport"
+      ],
+      "depth": 5,
+      "era": "industrial",
+      "artKey": "cards/vehicle"
+    },
+    {
+      "id": "compass",
+      "name": "Compass",
+      "icon": "Compass",
+      "tone": "slate",
+      "tags": [
+        "tool",
+        "science"
+      ],
+      "depth": 5,
+      "era": "bronze",
+      "artKey": "cards/compass"
+    },
+    {
+      "id": "paper",
+      "name": "Paper",
+      "icon": "Scroll",
+      "tone": "ochre",
+      "tags": [
+        "organic",
+        "knowledge"
+      ],
+      "depth": 3,
+      "era": "bronze",
+      "artKey": "cards/paper"
+    },
+    {
+      "id": "blueprint",
+      "name": "Blueprint",
+      "icon": "Map",
+      "tone": "blue",
+      "tags": [
+        "knowledge",
+        "science"
+      ],
+      "depth": 4,
+      "era": "bronze",
+      "artKey": "cards/blueprint"
+    },
+    {
+      "id": "academy",
+      "name": "Academy",
+      "icon": "GraduationCap",
+      "tone": "ochre",
+      "tags": [
+        "knowledge",
+        "structure"
+      ],
+      "depth": 5,
+      "era": "bronze",
+      "artKey": "cards/academy"
+    },
+    {
+      "id": "flint",
+      "name": "Flint",
+      "icon": "Gem",
+      "tone": "slate",
+      "tags": [
+        "tool",
+        "mineral"
+      ],
+      "depth": 1,
+      "era": "stone",
+      "artKey": "cards/flint"
+    },
+    {
+      "id": "fire",
+      "name": "Fire",
+      "icon": "Flame",
+      "tone": "coral",
+      "tags": [
+        "heat"
+      ],
+      "depth": 2,
+      "era": "stone",
+      "artKey": "cards/fire"
+    },
+    {
+      "id": "furnace",
+      "name": "Furnace",
+      "icon": "Flame",
+      "tone": "coral",
+      "tags": [
+        "structure",
+        "heat"
+      ],
+      "depth": 4,
+      "era": "bronze",
+      "artKey": "cards/furnace"
+    },
+    {
+      "id": "copper_ore",
+      "name": "Copper ore",
+      "icon": "Gem",
+      "tone": "coral",
+      "tags": [
+        "mineral",
+        "ore"
+      ],
+      "depth": 0,
+      "era": "bronze",
+      "artKey": "cards/copper_ore"
+    },
+    {
+      "id": "tin_ore",
+      "name": "Tin ore",
+      "icon": "Gem",
+      "tone": "slate",
+      "tags": [
+        "mineral",
+        "ore"
+      ],
+      "depth": 0,
+      "era": "bronze",
+      "artKey": "cards/tin_ore"
+    },
+    {
+      "id": "metal",
+      "name": "Metal",
+      "icon": "Hexagon",
+      "tone": "slate",
+      "tags": [
+        "metal",
+        "solid"
+      ],
+      "depth": 5,
+      "era": "bronze",
+      "artKey": "cards/metal"
+    },
+    {
+      "id": "basket",
+      "name": "Basket",
+      "icon": "ShoppingBasket",
+      "tone": "ochre",
+      "tags": [
+        "container",
+        "organic"
+      ],
+      "depth": 2,
+      "era": "stone",
+      "artKey": "cards/basket"
+    },
+    {
+      "id": "shelter",
+      "name": "Shelter",
+      "icon": "Tent",
+      "tone": "green",
+      "tags": [
+        "structure",
+        "wood"
+      ],
+      "depth": 1,
+      "era": "stone",
+      "artKey": "cards/shelter"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "water+earth",
+      "inputs": [
+        "water",
+        "earth"
+      ],
+      "output": "clay",
+      "why": "Water makes earth soft and shapeable.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "water+fire",
+      "inputs": [
+        "water",
+        "fire"
+      ],
+      "output": "steam",
+      "why": "Heat turns water into vapor.",
+      "era": "stone",
+      "requires": [
+        "firecraft"
+      ]
+    },
+    {
+      "id": "water+seed",
+      "inputs": [
+        "water",
+        "seed"
+      ],
+      "output": "plant",
+      "why": "Water wakes the seed into living growth.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "earth+seed",
+      "inputs": [
+        "earth",
+        "seed"
+      ],
+      "output": "garden",
+      "why": "Seeds take root in fertile ground.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "fire+wood",
+      "inputs": [
+        "fire",
+        "wood"
+      ],
+      "output": "charcoal",
+      "why": "Wood transforms into a concentrated fuel.",
+      "era": "stone",
+      "requires": [
+        "firecraft"
+      ]
+    },
+    {
+      "id": "fire+earth",
+      "inputs": [
+        "fire",
+        "earth"
+      ],
+      "output": "brick",
+      "why": "Fired earth becomes a building material.",
+      "era": "stone",
+      "requires": [
+        "firecraft"
+      ]
+    },
+    {
+      "id": "fire+stone",
+      "inputs": [
+        "fire",
+        "stone"
+      ],
+      "output": "lava",
+      "why": "Intense heat melts the mineral.",
+      "era": "stone",
+      "requires": [
+        "firecraft"
+      ]
+    },
+    {
+      "id": "air+earth",
+      "inputs": [
+        "air",
+        "earth"
+      ],
+      "output": "dust",
+      "why": "Air carries tiny particles of earth.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "water+stone",
+      "inputs": [
+        "water",
+        "stone"
+      ],
+      "output": "sand",
+      "why": "Water wears stone into grains.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "wood+stone",
+      "inputs": [
+        "wood",
+        "stone"
+      ],
+      "output": "tool",
+      "why": "A handle and a hard edge become a tool.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "wood+metal",
+      "inputs": [
+        "wood",
+        "metal"
+      ],
+      "output": "axe",
+      "why": "Metal gives a wooden tool a cutting edge.",
+      "era": "bronze",
+      "requires": []
+    },
+    {
+      "id": "air+fire",
+      "inputs": [
+        "air",
+        "fire"
+      ],
+      "output": "light",
+      "why": "Air feeds fire into a brilliant light.",
+      "era": "industrial",
+      "requires": [
+        "firecraft"
+      ]
+    },
+    {
+      "id": "wood+water",
+      "inputs": [
+        "wood",
+        "water"
+      ],
+      "output": "raft",
+      "why": "Buoyant wood becomes a way across water.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "clay+fire",
+      "inputs": [
+        "clay",
+        "fire"
+      ],
+      "output": "pottery",
+      "why": "Heat fixes clay into a lasting vessel.",
+      "era": "stone",
+      "requires": [
+        "firecraft"
+      ]
+    },
+    {
+      "id": "sand+fire",
+      "inputs": [
+        "sand",
+        "fire"
+      ],
+      "output": "glass",
+      "why": "Heat fuses sand into glass.",
+      "era": "bronze",
+      "requires": [
+        "firecraft"
+      ]
+    },
+    {
+      "id": "plant+fire",
+      "inputs": [
+        "plant",
+        "fire"
+      ],
+      "output": "tea",
+      "why": "Gentle heat draws flavor from leaves.",
+      "era": "stone",
+      "requires": [
+        "firecraft"
+      ]
+    },
+    {
+      "id": "plant+water",
+      "inputs": [
+        "plant",
+        "water"
+      ],
+      "output": "marsh",
+      "why": "Abundant water transforms vegetation into wetland.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "plant+earth",
+      "inputs": [
+        "plant",
+        "earth"
+      ],
+      "output": "forest",
+      "why": "Rooted plants grow into a woodland.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "garden+water",
+      "inputs": [
+        "garden",
+        "water"
+      ],
+      "output": "farm",
+      "why": "Irrigation turns a garden into productive farmland.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "brick+wood",
+      "inputs": [
+        "brick",
+        "wood"
+      ],
+      "output": "house",
+      "why": "A timber frame and brick walls create shelter.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "brick+brick",
+      "inputs": [
+        "brick",
+        "brick"
+      ],
+      "output": "tower",
+      "why": "Layered masonry reaches toward the sky.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "glass+metal",
+      "inputs": [
+        "glass",
+        "metal"
+      ],
+      "output": "lens",
+      "why": "A metal frame holds precision glass.",
+      "era": "bronze",
+      "requires": []
+    },
+    {
+      "id": "steam+metal",
+      "inputs": [
+        "steam",
+        "metal"
+      ],
+      "output": "engine",
+      "why": "A metal chamber turns steam into motion.",
+      "era": "industrial",
+      "requires": []
+    },
+    {
+      "id": "engine+raft",
+      "inputs": [
+        "engine",
+        "raft"
+      ],
+      "output": "steamboat",
+      "why": "An engine gives the raft its own propulsion.",
+      "era": "industrial",
+      "requires": []
+    },
+    {
+      "id": "wood+air",
+      "inputs": [
+        "wood",
+        "air"
+      ],
+      "output": "kite",
+      "why": "A light frame catches the wind.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "pottery+water",
+      "inputs": [
+        "pottery",
+        "water"
+      ],
+      "output": "reservoir",
+      "why": "A vessel stores water for later.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "house+plant",
+      "inputs": [
+        "house",
+        "plant"
+      ],
+      "output": "greenhouse",
+      "why": "Shelter creates a protected growing environment.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "lens+air",
+      "inputs": [
+        "lens",
+        "air"
+      ],
+      "output": "telescope",
+      "why": "A lens pointed into the sky reveals distant worlds.",
+      "era": "bronze",
+      "requires": []
+    },
+    {
+      "id": "light+glass",
+      "inputs": [
+        "light",
+        "glass"
+      ],
+      "output": "prism",
+      "why": "Glass separates light into a spectrum.",
+      "era": "bronze",
+      "requires": []
+    },
+    {
+      "id": "tool+wood",
+      "inputs": [
+        "tool",
+        "wood"
+      ],
+      "output": "wheel",
+      "why": "A shaped wooden disk makes movement easier.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "wheel+engine",
+      "inputs": [
+        "wheel",
+        "engine"
+      ],
+      "output": "vehicle",
+      "why": "Powered wheels turn energy into travel.",
+      "era": "industrial",
+      "requires": []
+    },
+    {
+      "id": "metal+stone",
+      "inputs": [
+        "metal",
+        "stone"
+      ],
+      "output": "compass",
+      "why": "A magnetic mineral gives metal a direction.",
+      "era": "bronze",
+      "requires": []
+    },
+    {
+      "id": "forest+tool",
+      "inputs": [
+        "forest",
+        "tool"
+      ],
+      "output": "paper",
+      "why": "Wood fibers become a surface for ideas.",
+      "era": "bronze",
+      "requires": []
+    },
+    {
+      "id": "paper+light",
+      "inputs": [
+        "paper",
+        "light"
+      ],
+      "output": "blueprint",
+      "why": "An idea takes visible form on paper.",
+      "era": "bronze",
+      "requires": []
+    },
+    {
+      "id": "blueprint+house",
+      "inputs": [
+        "blueprint",
+        "house"
+      ],
+      "output": "academy",
+      "why": "A place to live becomes a place to learn.",
+      "era": "bronze",
+      "requires": []
+    },
+    {
+      "id": "stone+stone",
+      "inputs": [
+        "stone",
+        "stone"
+      ],
+      "output": "flint",
+      "why": "Knapping stone reveals a sharp flint edge.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "flint+wood",
+      "inputs": [
+        "flint",
+        "wood"
+      ],
+      "output": "fire",
+      "why": "Flint and dry tinder establish the camp\u2019s first fire.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "wood+plant",
+      "inputs": [
+        "wood",
+        "plant"
+      ],
+      "output": "basket",
+      "why": "Flexible plant fibers and wood form a woven carrier.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "wood+wood",
+      "inputs": [
+        "wood",
+        "wood"
+      ],
+      "output": "shelter",
+      "why": "Interlocking branches create a simple shelter.",
+      "era": "stone",
+      "requires": []
+    },
+    {
+      "id": "brick+fire",
+      "inputs": [
+        "brick",
+        "fire"
+      ],
+      "output": "furnace",
+      "why": "A heat-resistant chamber concentrates the fire.",
+      "era": "bronze",
+      "requires": [
+        "firecraft",
+        "pottery"
+      ]
+    },
+    {
+      "id": "furnace+copper_ore",
+      "inputs": [
+        "furnace",
+        "copper_ore"
+      ],
+      "output": "metal",
+      "why": "Concentrated heat refines the ore.",
+      "era": "bronze",
+      "requires": [
+        "firecraft",
+        "pottery"
+      ]
+    },
+    {
+      "id": "metal+tin_ore",
+      "inputs": [
+        "metal",
+        "tin_ore"
+      ],
+      "output": "axe",
+      "why": "A simplified alloy experiment produces a stronger tool.",
+      "era": "bronze",
+      "requires": [
+        "metallurgy"
+      ]
+    }
+  ],
+  "eras": [
+    {
+      "id": "stone",
+      "name": "Stone Age",
+      "enabled": true,
+      "rank": 0
+    },
+    {
+      "id": "bronze",
+      "name": "Bronze Age",
+      "enabled": true,
+      "rank": 1
+    },
+    {
+      "id": "industrial",
+      "name": "Industrial Age",
+      "enabled": false,
+      "rank": 2
+    }
+  ],
+  "innovations": [
+    {
+      "id": "firecraft",
+      "name": "Firecraft",
+      "discover": [
+        "fire"
+      ],
+      "description": "Unlock heat-based crafting."
+    },
+    {
+      "id": "toolmaking",
+      "name": "Toolmaking",
+      "discover": [
+        "tool"
+      ],
+      "description": "Shape materials into useful objects."
+    },
+    {
+      "id": "pottery",
+      "name": "Pottery",
+      "discover": [
+        "pottery"
+      ],
+      "description": "Store supplies and prepare for furnaces."
+    },
+    {
+      "id": "cultivation",
+      "name": "Cultivation",
+      "discover": [
+        "garden"
+      ],
+      "description": "Grow a more reliable food supply."
+    },
+    {
+      "id": "metallurgy",
+      "name": "Metallurgy",
+      "discover": [
+        "metal"
+      ],
+      "description": "Explore metalworking in the Bronze Age."
+    }
+  ],
+  "events": [
+    {
+      "id": "clear",
+      "name": "Clear skies",
+      "description": "A fresh start. Explore at your own pace.",
+      "bonusTags": [],
+      "bonus": 0
+    },
+    {
+      "id": "cold",
+      "name": "Cold snap",
+      "description": "Discover fire before growing plants. Heat and shelter discoveries earn +10 points.",
+      "bonusTags": [
+        "heat",
+        "structure"
+      ],
+      "bonus": 10
+    },
+    {
+      "id": "rain",
+      "name": "Wet season",
+      "description": "Water and container discoveries earn +10 points.",
+      "bonusTags": [
+        "water",
+        "container"
+      ],
+      "bonus": 10
+    }
+  ]
+}
