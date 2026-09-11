@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 — Mobile collection interaction
+- Swipe the card collection normally; use the dedicated grip for touch dragging.
+- Keep tap-to-add and keyboard activation available.
+- Validate the testing-branch automatic deployment path.
+
 ## 0.2.0 — Stone Age knowledge pack
 - Word/VP-first cards with an optional artwork layer and stable art keys.
 - Stone-only scope and milestone-gated Stone → Bronze journey.

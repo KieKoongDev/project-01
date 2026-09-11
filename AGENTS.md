@@ -2,7 +2,7 @@
 
 This repository contains Paperbound, not the separate little-knight-adventure game.
 
-The user requested source preservation in KieKoongDev/project-01 and automatic testing updates on Railway. For future user-requested game changes, use the testing branch, run `pnpm check`, and commit/push the validated changes so the connected Railway service can deploy. Do not force-push or overwrite unrelated remote changes. Do not merge testing into main unless requested.
+The user requested source preservation in KieKoongDev/project-01 and automatic testing updates on Railway. For future user-requested game changes, use the testing branch, run `pnpm check`, and commit/push the validated changes so the Railway service can deploy once its GitHub App installation is authorized. At handoff Railway reported NO_INSTALLATION; never claim auto-deploy is active until verified. Do not force-push or overwrite unrelated remote changes. Do not merge testing into main unless requested.
 
 Keep the game word/point-first until the concept is validated. Preserve the flat papercraft card art contract in docs/ART-DIRECTION.md. Prefer data-driven era/knowledge/event rules. Keep collection rendering bounded for 1,000+ items. Tests should target rule invariants and concrete risks.
 
