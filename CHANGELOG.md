@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.11.0 — More room to grow
+- Unlock two adjoining 12-slot areas with wood and stone, up to 36 buildable slots; preserve original tile identities and saved decorations.
+- Area shortcuts and zoom controls, plus an explicit hand mode for one-finger pan/two-finger zoom without dragging buildings.
+- Rotate buildings in 90-degree steps and relocate between owned areas while preserving orientation and terrain constraints.
+- Nine bounded resource objects across three areas: timed wood, stone and clay with local output, collection, upgrades and opt-in automatic delivery.
+- Existing worker production remains compatible; ore mining, per-building recipe inventories and multi-slot research are future work, not part of this release.
+- Reconcile time before management actions; preserve above-cap legacy stock instead of truncating it.
+- Add six domain tests for expansion, geometry, orientation, object cooldowns, collection, automation and save validation. Real-device pan/pinch/visual QA remains required.
+
+
 ## 0.10.0 — The village works while you rest
 - Remove the end-day control from the playable village and run assigned jobs in automatic 30-second production cycles.
 - Reconcile elapsed time from saved timestamps on return, capped at four hours and bounded by storage capacity; no offline food drain or villager death.

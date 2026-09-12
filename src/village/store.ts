@@ -23,7 +23,7 @@ export const useVillage=create<State>((set,get)=>{
  dispatch:a=>{
   if(!get().loaded||get().blocked)return;
   try{const raw=localStorage.getItem(SAVE_KEY),current=decode(raw);if(raw&&!current||!sameRevision(current,get().save)){set({blocked:true,storageError:true,saveNote:'มีเซฟเปลี่ยนจากอีกแท็บ หรืออ่านข้อมูลไม่ได้ กดโหลดเซฟล่าสุดก่อนเล่นต่อ'});return;}}catch{set({blocked:true,storageError:true,saveNote:'อ่านเซฟไม่ได้ หยุดเขียนเพื่อป้องกันข้อมูลสูญหาย'});return;}
-  const v=act(get().v,a);set({v});try{persist(v,get().save);}catch{set({storageError:true,saveNote:'บันทึกไม่สำเร็จ หมู่บ้านล่าสุดยังอยู่ในหน้านี้ อย่าเพิ่งปิดเกม'});}
+  const synced=a.type==='sync'?get().v:act(get().v,{type:'sync',now:Date.now()});const v=act(synced,a);set({v});try{persist(v,get().save);}catch{set({storageError:true,saveNote:'บันทึกไม่สำเร็จ หมู่บ้านล่าสุดยังอยู่ในหน้านี้ อย่าเพิ่งปิดเกม'});}
  },
  restart:()=>{const v=initial();try{persist(v,null,true);set({v,loaded:true});}catch{set({storageError:true,saveNote:'เริ่มใหม่ไม่ได้ เพราะบันทึกไม่สำเร็จ เก็บหมู่บ้านปัจจุบันไว้ก่อน'});}}
  };
