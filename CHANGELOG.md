@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — Research & discovery
+- Filter by property, era, tier, invention, pinned cards and undiscovered partners; sort by name, points or newest.
+- Highlight feasible new pairings without revealing the result; use one-tap pair selection and a fixed mobile workbench.
+- Research targets an innovation and reveals the next reachable recipe for one quota credit.
+- Camp Tinkerer unlocks after firecraft and toolmaking, costs one credit to recruit, and can complete one new valid experiment per 12 seconds for one credit each.
+- Assistant is opt-in, pauses for occupied benches, hidden tabs and sprints, and never bypasses ownership, knowledge or era gates.
+- First flame, first shelter and first vessel give one-time milestone bonuses.
+- Historical innovators and flight-era invention rewards remain a future mode, with an extension plan in docs/RESEARCH-ROADMAP.md.
+
 ## 0.2.1 — Mobile collection interaction
 - Swipe the card collection normally; use the dedicated grip for touch dragging.
 - Keep tap-to-add and keyboard activation available.

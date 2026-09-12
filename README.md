@@ -2,7 +2,7 @@
 
 A mobile-first card-crafting concept test built with React, TypeScript, Tailwind, Zustand and Vite. This repository is the source of truth. The Railway service is ready; automatic deployment of the testing branch awaits Railway GitHub App installation for this repository.
 
-## Play v0.2.1
+## Play v0.3.0
 
 - **Stone Age only:** six starting elements, earned fire, bounded historical knowledge.
 - **Journey:** unlock the Bronze Age by discovering fire, a tool, pottery and 12 creations. New ore becomes available, but an actual furnace is still needed to refine it.
@@ -10,8 +10,16 @@ A mobile-first card-crafting concept test built with React, TypeScript, Tailwind
 - **Free discovery** or **3 × 45-second sprint**. Repeat discoveries do not score twice. Scope changes end a sprint; conditions lock during it.
 - On touchscreens, swipe cards to scroll, tap to add, or drag using the corner grip.
 - Words and VP are the default card presentation. The optional artwork toggle currently shows coherent resource icons. No generated art is required to validate the game loop.
-- Search names/properties and browse 48 cards per page. Notes have their own pagination. Engine hinting uses recipe/property indexing rather than all pair combinations.
+- Search names/properties and browse 48 cards per page. Filter by era, tier, property, invention, pinned cards and new pairings; sort by points, name or newest. Notes have their own pagination. Engine hinting uses recipe/property indexing rather than all pair combinations.
 - Browser-local discovery persistence. Saves do not transfer automatically from the previous Sites origin.
+
+## Research and assistance
+
+Open the Research tab to spend one research credit on the next reachable recipe for a chosen innovation. Credits are separate from victory points: free discovery starts with three, awards one per five new collection items (cap five), and sprints receive two each round. Invalid or unreachable research spends nothing. Recipe knowledge does not grant the output; use Select both ingredients and craft it.
+
+Recruit the Camp Tinkerer after discovering fire and a tool. Recruiting costs one credit. Assistance starts paused; enabling it allows one valid new experiment every 12 seconds at one credit per completed craft. It pauses while the workbench is occupied, the tab is hidden, the quota is empty, or a sprint is running. No offline catch-up or unattended server process exists.
+
+On mobile, a fixed bottom workbench keeps both ingredients and Combine within reach. Tap a slot to choose which ingredient to replace. Pinned cards and the New pairs filter reduce scrolling. New pair highlights describe possibilities, without revealing the output until research or crafting.
 
 ## Development
 
