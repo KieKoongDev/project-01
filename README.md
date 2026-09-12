@@ -2,7 +2,7 @@
 
 A mobile-first card-crafting concept test built with React, TypeScript, Tailwind, Zustand and Vite. This repository is the source of truth. The Railway service is ready; automatic deployment of the testing branch awaits Railway GitHub App installation for this repository.
 
-## Play v0.3.0
+## Play v0.4.0
 
 - **Stone Age only:** six starting elements, earned fire, bounded historical knowledge.
 - **Journey:** unlock the Bronze Age by discovering fire, a tool, pottery and 12 creations. New ore becomes available, but an actual furnace is still needed to refine it.
@@ -20,6 +20,14 @@ Open the Research tab to spend one research credit on the next reachable recipe 
 Recruit the Camp Tinkerer after discovering fire and a tool. Recruiting costs one credit. Assistance starts paused; enabling it allows one valid new experiment every 12 seconds at one credit per completed craft. It pauses while the workbench is occupied, the tab is hidden, the quota is empty, or a sprint is running. No offline catch-up or unattended server process exists.
 
 On mobile, a fixed bottom workbench keeps both ingredients and Combine within reach. Tap a slot to choose which ingredient to replace. Pinned cards and the New pairs filter reduce scrolling. New pair highlights describe possibilities, without revealing the output until research or crafting.
+
+## Your living civilization
+
+The main board now includes an animated isometric civilization. Discover fire for a living camp, shelter for homes, plants for greenery, garden/farm for fields, pottery + fire for a kiln, and a raft for river travel. Furnace + metal in the Bronze Age unlock a workshop.
+
+Civilization XP equals the sum of base VP values of unique current-scope discoveries. It is separate from session VP and cannot be spent; repeat crafting and weather switches do not increase it. Settlement stages require both XP and discoveries. Sandbox progress derives from the saved collection; a sprint shows only the current expedition.
+
+The renderer uses Canvas 2D with isometric projection rather than a WebGL dependency for this prototype. It caps drawing at 30fps and DPR at 2, pauses when hidden or offscreen, and supports reduced motion and a manual pause. This is not a measured mobile frame-rate claim. Click scene features or use their text buttons for accessible explanations.
 
 ## Development
 

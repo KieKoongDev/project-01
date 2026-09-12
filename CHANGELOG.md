@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 — A living civilization
+- Animated isometric Canvas scene: growing homes, trees, farms, campfire, kiln, raft and Bronze Age workshop.
+- Civilization XP derives from unique discovered cards; settlement stages also require relevant knowledge.
+- Click a scene feature or its accessible text button to inspect its discovery requirement.
+- Weather changes scene animation without granting XP.
+- Motion toggle, reduced-motion support, offscreen/hidden-tab pause, capped DPR and bounded scene objects.
+- Compact discovery feedback keeps the workbench visible beside the new world view.
+
 ## 0.3.0 — Research & discovery
 - Filter by property, era, tier, invention, pinned cards and undiscovered partners; sort by name, points or newest.
 - Highlight feasible new pairings without revealing the result; use one-tap pair selection and a fixed mobile workbench.
