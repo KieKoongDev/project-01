@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 — A calmer Thai civilization lab
+- One-screen responsive shell: city left / crafting right in landscape, stacked in portrait; independently scrolling bounded card collection.
+- Thai interface and generated card names, bilingual search, self-hosted Itim font.
+- Forest, parchment and gold theme; research/settings/notes in accessible dialogs.
+- Original opt-in procedural music, independent music toggle, volume, craft and progression cues.
+- Explicit craft feedback events, score animation, discovery and level-up toast; reduced-motion support.
+- Playtest hypotheses and outstanding real-device checks in docs/UX-PLAYTEST-PLAN.md.
+
+
 ## 0.4.0 — A living civilization
 - Animated isometric Canvas scene: growing homes, trees, farms, campfire, kiln, raft and Bronze Age workshop.
 - Civilization XP derives from unique discovered cards; settlement stages also require relevant knowledge.
