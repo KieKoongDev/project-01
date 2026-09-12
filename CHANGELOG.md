@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.0 — My cozy village
+- Name your village and neighbors; relocate buildings free while respecting terrain.
+- Separate decoration layer with full refunds, five decoration types and three one-time neighbor requests.
+- Winter gathering without a deadline; actionable per-building status and sage/peach styling.
+- Migrate legacy village saves into a guest-local revisioned envelope, preserve last valid backup and refuse detected stale/corrupt writes.
+- Google/email accounts and cloud saves remain v0.8 work; current UI explicitly identifies local saves.
+
+
 ## 0.6.0 — Build a village with a purpose
 - New default Stone Age village mode with a winter-readiness mission, five resources, worker jobs, food upkeep and player-controlled days.
 - Discover recipes, spend resources to place six building types, select facilities to produce or recruit, and dismantle for partial refunds.
