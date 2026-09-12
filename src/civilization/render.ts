@@ -18,7 +18,7 @@ const project=(x:number,y:number,z=0):Point=>({x:240+(x-y)*31,y:160+(x+y)*15-z})
 export function drawCity(ctx:CanvasRenderingContext2D,city:CityModel,seconds:number,objects:SceneObject[],scales:Map<string,number>):Hotspot[]{
  const hotspots:Hotspot[]=[];const cold=city.event==='cold',wet=city.event==='rain';
  ctx.clearRect(0,0,480,300);
- const sky=ctx.createLinearGradient(0,0,0,300);sky.addColorStop(0,cold?'#e1e9e6':wet?'#dae6df':'#eaf0dd');sky.addColorStop(1,'#f6f1e3');ctx.fillStyle=sky;ctx.fillRect(0,0,480,300);
+ const sky=ctx.createLinearGradient(0,0,0,300);sky.addColorStop(0,'#e9ecd7');sky.addColorStop(1,'#e9ecd7');ctx.fillStyle=sky;ctx.fillRect(0,0,480,300);
  function polygon(points:Point[],fill:string,stroke?:string){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=.8;ctx.stroke();}}
  function ellipse(x:number,y:number,rx:number,ry:number,fill:string){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();}
  function line(a:Point,b:Point,color:string,width=1){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineCap='round';ctx.stroke();}
