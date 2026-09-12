@@ -15,9 +15,13 @@ export const RECIPES={
 } satisfies Record<string,{name:string;pair:string[];why:string;cost:Cost}>;
 export type Recipe=keyof typeof RECIPES;
 // A pair may have multiple outcomes; successive experiments reveal only unknown knowledge.
-export const BUILDINGS=['fire','shelter','kiln','farm','store','lumber'] as const;
+export const BUILDINGS=['fire','shelter','kiln','farm','store','lumber','quarry','well','clayworks','orchard'] as const;
 export type Building=typeof BUILDINGS[number];
 export const BUILD:Record<Building,{name:string;cost:Cost;recipe:Recipe|null;effect:string;terrain?:string}>={
+ quarry:{name:'เหมืองหิน',cost:{wood:10,stone:6},recipe:'axe',effect:'เพิ่มหิน 1 ต่อคนเก็บหิน (ไม่สะสม)'},
+ well:{name:'บ่อน้ำ',cost:{stone:12,clay:6},recipe:'pottery',effect:'เพิ่มน้ำ 1 ต่อคนตักน้ำ (ไม่สะสม)'},
+ clayworks:{name:'ลานขุดดิน',cost:{wood:8,stone:8},recipe:'kiln',effect:'เพิ่มดิน 1 ต่อคนขุดดิน (ไม่สะสม)'},
+ orchard:{name:'สวนผลไม้',cost:{wood:10,water:12},recipe:'farm',effect:'เพิ่มอาหาร 1 ต่อคนหาอาหาร (ไม่สะสม)'},
  fire:{...RECIPES.fire,recipe:'fire',effect:'ให้ความอบอุ่นและเปิดทางสร้างเตาเผา'},
  shelter:{...RECIPES.shelter,recipe:'shelter',effect:'เพิ่มที่พัก 2 คน'},
  kiln:{...RECIPES.kiln,recipe:'kiln',effect:'ผลิตภาชนะเพื่อเพิ่มน้ำและเก็บเสบียง'},
@@ -54,7 +58,7 @@ export const FIND_IDS=['wood-bundle','clay-cache','flowers','visitor'] as const;
 export type FindId=typeof FIND_IDS[number];
 export const DEFAULT_NAMES=['มะลิ','ต้นกล้า','ใบชา','ข้าวปั้น','อุ่นใจ'];
 export const validName=(value:unknown,max:number)=>typeof value==='string'&&[...value.trim()].length>0&&[...value.trim()].length<=max&&!/[\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/.test(value);
-export type Village={rotations:number[];nodes:ResourceNode[];research:ResearchTask[];assignments:(Job|null)[];crateReadyAt:number;decorationGifts:Partial<Record<Decoration,number>>;giftedTiles:number[];lastFind:FindId|null;version:1;name:string;names:string[];decorations:(Decoration|null)[];completed:RequestId[];day:number;stock:Stock;people:number;jobs:Record<Job,number>;plots:(Building|null)[];known:Recipe[];axe:boolean;pots:boolean;won:boolean;winter:boolean;message:string;log:string[];lastActiveAt:number;productionCarryMs:number;craft:CraftTask|null;awayReport:string|null};
+export type Village={autoBuild?:Building|null;rotations:number[];nodes:ResourceNode[];research:ResearchTask[];assignments:(Job|null)[];crateReadyAt:number;decorationGifts:Partial<Record<Decoration,number>>;giftedTiles:number[];lastFind:FindId|null;version:1;name:string;names:string[];decorations:(Decoration|null)[];completed:RequestId[];day:number;stock:Stock;people:number;jobs:Record<Job,number>;plots:(Building|null)[];known:Recipe[];axe:boolean;pots:boolean;won:boolean;winter:boolean;message:string;log:string[];lastActiveAt:number;productionCarryMs:number;craft:CraftTask|null;awayReport:string|null};
 export const initial=(now=Date.now()):Village=>({rotations:Array(12).fill(0),nodes:createNodes(0,now),research:[],assignments:['forage','wood',null,null,null],crateReadyAt:now,decorationGifts:{},giftedTiles:[],lastFind:null,version:1,name:'หมู่บ้านริมธาร',names:[...DEFAULT_NAMES],decorations:Array(12).fill(null),completed:[],day:1,stock:{wood:9,stone:6,clay:4,food:12,water:6},people:2,jobs:{forage:1,wood:1,stone:0,clay:0,water:0,farm:0},plots:Array(12).fill(null),known:[],axe:false,pots:false,won:false,winter:false,message:'เป้าหมายแรก: ทดลองไม้ + หิน แล้ววางกองไฟในหมู่บ้าน',log:[],lastActiveAt:now,productionCarryMs:0,craft:null,awayReport:null});
 export const has=(s:Village,b:Building)=>s.plots.includes(b);
 export const housing=(s:Village)=>2+s.plots.filter(b=>b==='shelter').length*2;
@@ -69,15 +73,18 @@ export const goals=(s:Village)=>[{name:'มีผู้ตั้งถิ่น�
 function pay(s:Village,c:Cost){for(const r of RESOURCES)s.stock[r]-=c[r]??0;}
 function message(s:Village,text:string){s.message=text;return s;}
 function rebuildJobs(s:Village){for(const j of JOBS)s.jobs[j]=0;for(const job of s.assignments.slice(0,s.people))if(job)s.jobs[job]++;}
-export type Action={type:'expand'}|{type:'open-crate';now:number;roll:number}|{type:'rotate';tile:number}|{type:'collect-node';id:string}|{type:'upgrade-node';id:string}|{type:'toggle-node-auto';id:string}|{type:'rename';name:string}|{type:'rename-person';person:number;name:string}|{type:'move';from:number;to:number}|{type:'decorate';decoration:Decoration;tile:number}|{type:'remove-decoration';tile:number}|{type:'fulfill';request:RequestId}|{type:'experiment';a:Resource;b:Resource}|{type:'queue-research';a:Resource;b:Resource;now:number}|{type:'build';building:Building;tile:number}|{type:'demolish';tile:number}|{type:'assign';job:Job;delta:1|-1}|{type:'assign-person';person:number;job:Job|null}|{type:'recruit'}|{type:'produce';item:'axe'|'pottery'}|{type:'queue-craft';item:'axe'|'pottery';now:number}|{type:'sync';now:number}|{type:'clear-away'}|{type:'day'}|{type:'winter'};
+export type Action={type:'auto-build';building:Building|null}|{type:'expand'}|{type:'open-crate';now:number;roll:number}|{type:'rotate';tile:number}|{type:'collect-node';id:string}|{type:'upgrade-node';id:string}|{type:'toggle-node-auto';id:string}|{type:'rename';name:string}|{type:'rename-person';person:number;name:string}|{type:'move';from:number;to:number}|{type:'decorate';decoration:Decoration;tile:number}|{type:'remove-decoration';tile:number}|{type:'fulfill';request:RequestId}|{type:'experiment';a:Resource;b:Resource}|{type:'queue-research';a:Resource;b:Resource;now:number}|{type:'build';building:Building;tile:number}|{type:'demolish';tile:number}|{type:'assign';job:Job;delta:1|-1}|{type:'assign-person';person:number;job:Job|null}|{type:'recruit'}|{type:'produce';item:'axe'|'pottery'}|{type:'queue-craft';item:'axe'|'pottery';now:number}|{type:'sync';now:number}|{type:'clear-away'}|{type:'day'}|{type:'winter'};
 function productionCycle(s:Village){
+ if(s.autoBuild&&!canPay(s,BUILD[s.autoBuild].cost)){const cost=BUILD[s.autoBuild].cost;const missingResource=RESOURCES.find(r=>s.stock[r]<(cost[r]??0));if(missingResource){s.assignments[0]=missingResource==='food'?'forage':missingResource;rebuildJobs(s);}}
+
  const cap=storageCapacity(s),before={...s.stock},add=(r:Resource,n:number)=>{s.stock[r]+=Math.max(0,Math.min(n,cap-s.stock[r]));};
- add('wood',s.jobs.wood*(2+Number(s.axe)+Number(has(s,'lumber'))));add('stone',s.jobs.stone*2);add('clay',s.jobs.clay*2);add('water',s.jobs.water*(3+Number(s.pots)));add('food',s.jobs.forage*3);
+ add('wood',s.jobs.wood*(2+Number(s.axe)+Number(has(s,'lumber'))));add('stone',s.jobs.stone*(2+Number(has(s,'quarry'))));add('clay',s.jobs.clay*(2+Number(has(s,'clayworks'))));add('water',s.jobs.water*(3+Number(s.pots)+Number(has(s,'well'))));add('food',s.jobs.forage*(3+Number(has(s,'orchard'))));
  const watered=Math.min(s.jobs.farm,Math.floor(s.stock.water/2),Math.max(0,Math.floor((cap-s.stock.food)/6)));s.stock.water-=watered*2;add('food',watered*6);
  return RESOURCES.some(r=>s.stock[r]!==before[r]);
 }
 export function act(state:Village,action:Action):Village{
  const s:Village=structuredClone(state);
+ if(action.type==='auto-build'){s.autoBuild=action.building;return message(s,action.building?'ผู้ช่วยจะจัดงานคนแรกเพื่อเก็บวัสดุที่ขาดทุก 30 วิ · คนอื่นทำงานเดิม · วางอาคารเองเมื่อพร้อม':'หยุดเตรียมวัสดุแล้ว');}
  if(action.type==='open-crate'){
   if(!Number.isFinite(action.now)||!Number.isFinite(action.roll)||action.roll<0||action.roll>=1)return s;if(action.now<s.crateReadyAt)return message(s,`ทีมสำรวจยังเดินทางอยู่ · กลับใน ${Math.ceil((s.crateReadyAt-action.now)/1000)} วินาที`);s.crateReadyAt=action.now+CRATE_COOLDOWN_MS;
   const cap=storageCapacity(s);if(action.roll<.35){s.stock.wood+=Math.max(0,Math.min(4,cap-s.stock.wood));s.lastFind='wood-bundle';return message(s,'เปิดกล่องสำรวจ: พบมัดไม้แห้ง +4');}if(action.roll<.65){s.stock.clay+=Math.max(0,Math.min(2,cap-s.stock.clay));s.stock.stone+=Math.max(0,Math.min(2,cap-s.stock.stone));s.lastFind='clay-cache';return message(s,'เปิดกล่องสำรวจ: พบดินเหนียว +2 และหิน +2');}if(action.roll<.85){s.decorationGifts.flowers=(s.decorationGifts.flowers??0)+1;s.lastFind='flowers';return message(s,'ของหายาก! พบแปลงดอกไม้ 1 ชิ้น วางได้ฟรีในเมนูแต่งบ้าน');}
@@ -155,7 +162,7 @@ export function act(state:Village,action:Action):Village{
  if(b==='kiln'&&!has(s,'fire'))return message(s,'สร้างกองไฟก่อนเพื่อใช้ความรู้เรื่องความร้อน');
  if(b==='store'&&!s.pots)return message(s,'ผลิตและติดตั้งภาชนะที่เตาเผาก่อน');
  if(!canPay(s,d.cost))return message(s,'ขาด '+missing(s,d.cost)+' — มอบหมายคนให้สถานีแล้วรอผลผลิตรอบถัดไป');
- pay(s,d.cost);s.plots[tile]=b;s.rotations[tile]=0;return message(s,'สร้าง'+d.name+'แล้ว · '+d.effect);
+ pay(s,d.cost);if(s.autoBuild===b)s.autoBuild=null;s.plots[tile]=b;s.rotations[tile]=0;return message(s,'สร้าง'+d.name+'แล้ว · '+d.effect);
  }
  if(action.type==='demolish'){
  const b=s.plots[action.tile];if(!b)return s;
@@ -207,7 +214,8 @@ export function restore(raw:unknown):Village|null{
  }
  const now=Date.now(),lastActiveAt=integer(legacy.lastActiveAt,Number.MAX_SAFE_INTEGER)?legacy.lastActiveAt!:now,productionCarryMs=integer(legacy.productionCarryMs,PRODUCTION_CYCLE_MS-1)?legacy.productionCarryMs!:0,craft=legacy.craft&&['axe','pottery'].includes(legacy.craft.item)&&Number.isFinite(legacy.craft.startedAt)&&Number.isFinite(legacy.craft.finishAt)&&legacy.craft.finishAt>=legacy.craft.startedAt?legacy.craft:null;
  const migratedAssignments=legacy.assignments??[...JOBS.flatMap(j=>Array(s.jobs[j]).fill(j)),...Array(5-assigned(s)).fill(null)] as (Job|null)[];
- return {rotations:legacy.rotations??Array(s.plots.length).fill(0),nodes:legacy.nodes??Array.from({length:s.plots.length/12},(_,i)=>createNodes(i,now)).flat(),research:legacy.research??[],assignments:migratedAssignments,crateReadyAt:legacy.crateReadyAt??now,decorationGifts:legacy.decorationGifts??{},giftedTiles:legacy.giftedTiles??[],lastFind:legacy.lastFind??null,version:1,name:legacy.name?.trim()??initial().name,names:legacy.names?.map(n=>n.trim())??[...DEFAULT_NAMES],decorations:legacy.decorations??Array(s.plots.length).fill(null),completed:[...new Set(legacy.completed??[])],day:s.day,stock:Object.fromEntries(RESOURCES.map(r=>[r,s.stock[r]])) as Stock,people:s.people,jobs:Object.fromEntries(JOBS.map(j=>[j,s.jobs[j]])) as Record<Job,number>,plots:[...s.plots],known:[...new Set(s.known)],axe:s.axe===true,pots:s.pots===true,won:s.won===true,winter:s.winter===true,log:Array.isArray(s.log)?s.log.filter(x=>typeof x==='string').slice(0,20):[],message:'กลับบ้านแล้ว ♡ ระบบจะคำนวณงานที่ทำต่อระหว่างพัก',lastActiveAt,productionCarryMs,craft,awayReport:typeof legacy.awayReport==='string'?legacy.awayReport:null};
+ if(legacy.autoBuild!==undefined&&legacy.autoBuild!==null&&!BUILDINGS.includes(legacy.autoBuild))return null;
+ return {autoBuild:legacy.autoBuild??null,rotations:legacy.rotations??Array(s.plots.length).fill(0),nodes:legacy.nodes??Array.from({length:s.plots.length/12},(_,i)=>createNodes(i,now)).flat(),research:legacy.research??[],assignments:migratedAssignments,crateReadyAt:legacy.crateReadyAt??now,decorationGifts:legacy.decorationGifts??{},giftedTiles:legacy.giftedTiles??[],lastFind:legacy.lastFind??null,version:1,name:legacy.name?.trim()??initial().name,names:legacy.names?.map(n=>n.trim())??[...DEFAULT_NAMES],decorations:legacy.decorations??Array(s.plots.length).fill(null),completed:[...new Set(legacy.completed??[])],day:s.day,stock:Object.fromEntries(RESOURCES.map(r=>[r,s.stock[r]])) as Stock,people:s.people,jobs:Object.fromEntries(JOBS.map(j=>[j,s.jobs[j]])) as Record<Job,number>,plots:[...s.plots],known:[...new Set(s.known)],axe:s.axe===true,pots:s.pots===true,won:s.won===true,winter:s.winter===true,log:Array.isArray(s.log)?s.log.filter(x=>typeof x==='string').slice(0,20):[],message:'กลับบ้านแล้ว ♡ ระบบจะคำนวณงานที่ทำต่อระหว่างพัก',lastActiveAt,productionCarryMs,craft,awayReport:typeof legacy.awayReport==='string'?legacy.awayReport:null};
 }
 export const decorationUnlocked=(s:Village,d:Decoration)=>d==='bench'?s.completed.includes('garden'):d==='lantern'?s.completed.includes('light'):true;
 export function requestMissing(s:Village,id:RequestId):string|null{
@@ -221,6 +229,7 @@ export function buildingStatus(s:Village,b:Building,tile?:number):{label:string;
  const farms=s.plots.map((v,i)=>v==='farm'?i:-1).filter(i=>i>=0),rank=tile===undefined?0:farms.indexOf(tile);
  return rank>=s.jobs.farm?{label:'ขาดคนทำไร่',tab:'people'}:Math.floor((s.stock.water+s.jobs.water*(3+Number(s.pots)))/2)<=rank?{label:'ขาดน้ำสำหรับรอบถัดไป',tab:'people'}:{label:'พร้อมปลูก · รับผลผลิตอัตโนมัติ',tab:'people'};
  }
+ if(['quarry','well','clayworks','orchard'].includes(b))return {label:BUILD[b].effect,tab:'people'};
  if(b==='lumber')return {label:s.jobs.wood?'ทีมตัดไม้พร้อมทำงาน':'ยังไม่มีคนตัดไม้',tab:'people'};
  if(b==='shelter')return {label:housing(s)>s.people&&s.people<5?'มีที่ว่าง · ต้อนรับเพื่อนได้':'ทุกคนมีบ้านพัก',tab:'people'};
  if(b==='kiln')return {label:s.pots?'ภาชนะติดตั้งแล้ว':s.craft?.item==='pottery'?'กำลังเผาภาชนะ':!s.known.includes('pottery')?'ยังไม่รู้สูตรภาชนะ':!canPay(s,RECIPES.pottery.cost)?'ขาด '+missing(s,RECIPES.pottery.cost):'พร้อมเข้าคิวผลิตภาชนะ',tab:'discover'};

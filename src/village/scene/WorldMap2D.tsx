@@ -1,7 +1,8 @@
 import {useEffect,useRef,useState,type CSSProperties,type PointerEvent as ReactPointerEvent,type RefObject} from 'react';
 import {BookOpen,ChevronLeft,ChevronRight,Package,Users} from 'lucide-react';
-import {BUILD,TILES,assigned,buildingStatus,type Building,type Decoration,type Village} from '../model';
+import {BUILD,TILES,JOB_NAMES,buildingStatus,type Building,type Decoration,type Village} from '../model';
 import {LAND_NAMES,NODE_NAMES,nodeDuration} from '../land';
+import {VillagerArt} from './VillagerArt';
 import {ItemArt} from './ItemArt';
 import type {SceneHandle} from './layout';
 
@@ -12,14 +13,14 @@ function BuildingButton({tile,kind,props}:{tile:number;kind:Building;props:Props
  const start=useRef<{x:number;y:number;drag:boolean}|null>(null);const status=buildingStatus(props.v,kind,tile);
  function down(e:ReactPointerEvent<HTMLButtonElement>){if(e.button!==0||props.placing||props.decorating||props.moving!==null)return;start.current={x:e.clientX,y:e.clientY,drag:false};e.currentTarget.setPointerCapture(e.pointerId);}
  function move(e:ReactPointerEvent<HTMLButtonElement>){if(start.current&&Math.hypot(e.clientX-start.current.x,e.clientY-start.current.y)>8){start.current.drag=true;e.currentTarget.classList.add('dragging');}}
- function up(e:ReactPointerEvent<HTMLButtonElement>){const s=start.current;e.currentTarget.classList.remove('dragging');start.current=null;if(!s)return;if(s.drag){const target=document.elementsFromPoint(e.clientX,e.clientY).find(el=>(el as HTMLElement).dataset?.mapTile!==undefined) as HTMLElement|undefined;if(target)props.onMove(tile,Number(target.dataset.mapTile));}else props.onChoose(tile);}
- return <button data-map-tile={tile} className={'map2d-object '+(props.selected===tile?'selected':'')} style={{...tileStyle(tile),'--turn':`${props.v.rotations[tile]}deg`} as CSSProperties} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={e=>{start.current=null;e.currentTarget.classList.remove('dragging');}} aria-label={`${BUILD[kind].name} · ${status.label}`}><ItemArt kind={kind}/><span>{BUILD[kind].name}</span>{['farm','kiln','lumber'].includes(kind)&&<small>{status.label}</small>}</button>;
+ function up(e:ReactPointerEvent<HTMLButtonElement>){const s=start.current;e.currentTarget.classList.remove('dragging');start.current=null;if(!s)return;if(s.drag){const target=props.handle.current?.tileAt({x:e.clientX,y:e.clientY});if(target!==null&&target!==undefined)props.onMove(tile,target);}else props.onChoose(tile);}
+ return <button data-map-tile={tile} className={'map2d-object '+(props.selected===tile?'selected':'')} style={tileStyle(tile)} onClick={e=>{if(e.detail===0)props.onChoose(tile);}} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={e=>{start.current=null;e.currentTarget.classList.remove('dragging');}} aria-label={`${BUILD[kind].name} · ${status.label}`}><ItemArt kind={kind}/><span>{BUILD[kind].name}</span>{['farm','kiln','lumber'].includes(kind)&&<small>{status.label}</small>}</button>;
 }
 
 export default function WorldMap2D(props:Props){
  const [page,setPage]=useState(0),[list,setList]=useState(false);const viewport=useRef<HTMLDivElement>(null),swipe=useRef<{x:number;y:number}|null>(null),lands=props.v.plots.length/12;
  useEffect(()=>{if(page>=lands)setPage(lands-1);},[lands,page]);
- useEffect(()=>{props.handle.current={tileAt:p=>{const element=document.elementsFromPoint(p.x,p.y).find(el=>(el as HTMLElement).dataset?.mapTile!==undefined) as HTMLElement|undefined;return element?Number(element.dataset.mapTile):null;}};return()=>{props.handle.current=null;};},[props.handle]);
+ useEffect(()=>{props.handle.current={tileAt:p=>{const tiles=viewport.current?.querySelectorAll<HTMLElement>('.map2d-tile')??[];for(const tile of tiles){const r=tile.getBoundingClientRect();const frame=viewport.current!.getBoundingClientRect();if(p.x>=frame.left&&p.x<=frame.right&&p.y>=frame.top&&p.y<=frame.bottom&&p.x>=r.left&&p.x<=r.right&&p.y>=r.top&&p.y<=r.bottom)return Number(tile.dataset.mapTile);}return null;}};return()=>{props.handle.current=null;};},[props.handle]);
  function swipeStart(e:ReactPointerEvent<HTMLDivElement>){if((e.target as Element).closest('button'))return;swipe.current={x:e.clientX,y:e.clientY};e.currentTarget.setPointerCapture(e.pointerId);}
  function swipeEnd(e:ReactPointerEvent<HTMLDivElement>){if(!swipe.current)return;const dx=e.clientX-swipe.current.x,dy=e.clientY-swipe.current.y;swipe.current=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))setPage(p=>Math.max(0,Math.min(lands-1,p+(dx<0?1:-1))));}
  return <div ref={viewport} className="map2d-viewport" aria-label="แผนที่หมู่บ้าน 2D ลากซ้ายขวาเพื่อเปลี่ยนพื้นที่" onPointerDown={swipeStart} onPointerUp={swipeEnd} onPointerCancel={()=>{swipe.current=null;}}>
@@ -31,7 +32,7 @@ export default function WorldMap2D(props:Props){
    {TILES.slice(chunk*12,chunk*12+12).map((terrain,local)=>{const tile=chunk*12+local,occupied=props.v.plots[tile],show=!occupied&&(!!props.placing||props.moving!==null||!!props.decorating);return <button data-map-tile={tile} key={tile} className={'map2d-tile '+terrain+(show?' available':'')} style={tileStyle(tile)} onClick={()=>show&&props.onChoose(tile)} aria-label={`พื้นที่ ${tile+1} ${terrain==='forest'?'ใกล้ป่า':terrain==='river'?'ริมน้ำ':'ทุ่งหญ้า'}`}>{show&&<span>+</span>}</button>;})}
    {props.v.plots.slice(chunk*12,chunk*12+12).map((kind,local)=>kind&&<BuildingButton key={chunk*12+local+'-'+kind} tile={chunk*12+local} kind={kind} props={props}/>)}
    {props.v.decorations.slice(chunk*12,chunk*12+12).map((kind,local)=>kind&&<button key={'d-'+local} className="map2d-decoration" style={tileStyle(chunk*12+local)} onClick={()=>props.onChoose(chunk*12+local)} aria-label={'ของตกแต่ง '+kind}><ItemArt kind={kind}/></button>)}
-   {chunk===0&&Array.from({length:props.v.people},(_,i)=><button className={'map2d-person person-'+i+(i<assigned(props.v)?' busy':'')} key={i} onClick={props.onPeople} aria-label={`${props.v.names[i]} ${props.v.assignments[i]?'กำลัง'+props.v.assignments[i]:'ว่าง'}`}><span/><small>{props.v.names[i]}</small></button>)}
+   {chunk===0&&Array.from({length:props.v.people},(_,i)=><button className={'map2d-person person-'+i+(!!props.v.assignments[i]?' busy':'')} key={i} onClick={props.onPeople} aria-label={`${props.v.names[i]} ${props.v.assignments[i]?'กำลัง'+JOB_NAMES[props.v.assignments[i]!] :'ว่าง'}`}><VillagerArt index={i} job={props.v.assignments[i]}/><small>{props.v.names[i]}</small></button>)}
   </section>)}</div>
   <button className="map2d-list-button" aria-expanded={list} onClick={()=>setList(!list)}>รายการ</button>
   {list&&<div className="map2d-object-list"><button onClick={()=>setList(false)}>ปิด</button><button onClick={props.onResearch}>โต๊ะค้นคว้า</button><button onClick={props.onPeople}><Users size={15}/> จัดงานชาวบ้าน</button>{props.v.nodes.map(n=><button key={n.id} onClick={()=>props.onNode(n.id)}>{LAND_NAMES[n.chunk]} · {NODE_NAMES[n.resource]} · {n.stored}</button>)}</div>}

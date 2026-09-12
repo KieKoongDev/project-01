@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.14.0 — Recipe catalog and material assistant
+
+- Searchable illustrated catalog with 10 buildings, ingredient counts, readiness filtering, and explicit research prerequisites.
+- Added quarry, well, clayworks and orchard with non-stacking worker production bonuses; these reuse existing research unlocks and base art.
+- Optional persisted material assistant reassigns the first villager per production cycle; no instant resources or automatic building. Materials remain shared, not reserved.
+- Ready-to-place prompt on the world and catalog; cancel preparation at any time. Offline work retains its four-hour cap.
+
+## 0.13.1 — Villagers and cleaner land
+
+- Added illustrated full-body villagers, animated limbs and workplace badges shared by the world and assignment cards.
+- Removed rotation controls and rotation rendering; retained old save data for compatibility.
+- Hid idle placement tiles, fixed drag hit-testing on empty land and keyboard activation for buildings.
+- Fixed working indicators to use each person's actual assignment and corrected outdated land instructions.
+- Audit: expansion remains capped at 36 plots; research is sequential (capacity 1–3). House upgrades and multiple house types are not implemented yet.
+
 ## 0.13.0 — Illustrated 2D village and card merging
 
 - Replaced the 2.5D scene with a portrait-first illustrated 2D village that fills the play area.
