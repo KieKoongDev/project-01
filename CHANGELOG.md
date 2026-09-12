@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.0 — The village works while you rest
+- Remove the end-day control from the playable village and run assigned jobs in automatic 30-second production cycles.
+- Reconcile elapsed time from saved timestamps on return, capped at four hours and bounded by storage capacity; no offline food drain or villager death.
+- Queue axe and pottery work for 90 seconds, reserve ingredients at queue start, complete while away and prevent duplicate jobs.
+- Show live production/crafting progress, a dismissible return summary, per-cycle job yields and storage capacity in the compact bottom status area.
+- Migrate existing guest saves to the real-time fields without granting retroactive resources; preserve the prior manual-day rule only as an internal legacy test path.
+- Add deterministic tests for partial cycles, repeat sync, offline cap, full storage, reserved crafting and save migration. Timing and interaction feel still require real-device playtesting.
+
 ## 0.9.0 — A village that guides you
 - One actionable chapter goal connects discovery, building, welcoming neighbors and a post-celebration kiln → pottery → storage path.
 - Accessible projected world badges prioritize up to three genuine needs, with overlap suppression and no repeating alert animation.
