@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.0 — A village that guides you
+- One actionable chapter goal connects discovery, building, welcoming neighbors and a post-celebration kiln → pottery → storage path.
+- Accessible projected world badges prioritize up to three genuine needs, with overlap suppression and no repeating alert animation.
+- Tap buildings for a compact in-world action menu: recruit, learn/produce pottery, assign workers, move or open details.
+- Illustrated discovery feedback, job/recipe art, a ready-to-build filter, and a net next-day resource preview using the actual economy rules.
+- Preserve existing guest saves and manual day pacing; no new timer, online account or exploration system in this patch.
+- Rule tests cover guidance transitions, facility dependencies, needs and production forecasts. Real-device interaction/playtest validation remains required.
+
 ## 0.8.0 — A world you can touch
 - Replace permanent block grid with interactive Three.js low-poly models viewed through an orthographic 2.5D camera.
 - Drag buildings to relocate, tap models for commands, and drag illustrated building/decor cards into the world.
