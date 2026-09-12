@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.12.0 — The world comes first
+- Make the portrait village fill the playable screen and move cards/tools into a 60px peek drawer that opens by tap or upward swipe; selecting a placeable card collapses it again.
+- Add a real research queue: card pairs reserve one unit each, take 45–90 seconds, finish while away, and reveal recipes only on completion. Fire and kiln expand capacity from one to three queued topics.
+- Add an interactive 2.5D research table with an accessible projected countdown badge and a non-WebGL object-list fallback.
+- Assign named villagers one by one by tapping or dragging illustrated person cards to job cards. Each assignment remains the source for existing bounded 30-second AFK production.
+- Add a free three-minute exploration parcel with bounded resource, decoration, or housed-visitor outcomes. It has no currency purchase, pity system, duplicate collection, or monetization.
+- Preserve old saves by deriving named assignments from prior job totals and defaulting new queue/exploration fields; validate queue order, recipes, rewards and gifted decoration refunds.
+- Add five focused tests; 58 total tests and production build pass. Cloud localhost visual inspection was blocked, so real-phone portrait/gesture QA remains required.
+
 ## 0.11.0 — More room to grow
 - Unlock two adjoining 12-slot areas with wood and stone, up to 36 buildable slots; preserve original tile identities and saved decorations.
 - Area shortcuts and zoom controls, plus an explicit hand mode for one-finger pan/two-finger zoom without dragging buildings.
