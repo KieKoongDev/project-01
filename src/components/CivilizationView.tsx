@@ -1,0 +1,37 @@
+import {memo,useEffect,useMemo,useRef,useState} from 'react';
+import {Map as MapIcon,Pause,Play,ChevronRight} from 'lucide-react';
+import {deriveCity,FEATURE_INFO,type CityFeature} from '@/civilization/model';
+import {cityObjects,drawCity,type Hotspot} from '@/civilization/render';
+import type {Card,Era} from '@/game/engine';
+export const CivilizationView=memo(function CivilizationView({cards,era,event,mode}:{cards:Card[];era:Era;event:string;mode:string}){
+ const city=useMemo(()=>deriveCity(cards,era,event),[cards,era,event]);
+ const canvas=useRef<HTMLCanvasElement>(null),host=useRef<HTMLDivElement>(null),hotspots=useRef<Hotspot[]>([]);
+ const [motion,setMotion]=useState(true),[reduced,setReduced]=useState(false),[supported,setSupported]=useState(true),[selected,setSelected]=useState<CityFeature|null>(null);
+ const latest=useRef(city);latest.current=city;
+ const clock=useRef(0),births=useRef(new Map<string,number>()),previousKey=useRef(mode+era),initialized=useRef(false);
+ useEffect(()=>{const m=window.matchMedia('(prefers-reduced-motion: reduce)');const update=()=>setReduced(m.matches);update();m.addEventListener('change',update);try{setMotion(localStorage.getItem('paperbound-city-motion')!=='off');}catch{}return()=>m.removeEventListener('change',update);},[]);
+ useEffect(()=>{if(previousKey.current!==mode+era){births.current.clear();initialized.current=false;previousKey.current=mode+era;}},[mode,era]);
+ useEffect(()=>{
+  const el=canvas.current,container=host.current;if(!el||!container)return;const ctx=el.getContext('2d');if(!ctx){setSupported(false);return;}
+  let frame=0,lastFrame=0,lastTime=0,visible=true,disposed=false;const animate=motion&&!reduced;
+  function paint(timestamp:number){if(disposed)return;const model=latest.current,objects=cityObjects(model);const scales=new Map<string,number>();const ids=new Set(objects.map(o=>o.id));
+   for(const id of births.current.keys())if(!ids.has(id))births.current.delete(id);
+   for(const o of objects){if(!births.current.has(o.id))births.current.set(o.id,initialized.current?clock.current:-1000);const age=clock.current-births.current.get(o.id)!;scales.set(o.id,!animate?1:Math.min(1,Math.max(.05,1-Math.pow(1-Math.min(1,age/.65),3))));}
+   initialized.current=true;ctx!.setTransform(el!.width/480,0,0,el!.height/300,0,0);hotspots.current=drawCity(ctx!,model,clock.current,objects,scales);
+  }
+  function loop(t:number){if(disposed||document.hidden||!visible){frame=0;return;}if(!lastTime)lastTime=t;const delta=Math.min(.05,(t-lastTime)/1000);lastTime=t;
+   if(animate)clock.current+=delta;
+   if(t-lastFrame>=1000/30){paint(t);lastFrame=t;}
+   if(animate)frame=requestAnimationFrame(loop);else frame=0;
+  }
+  function wake(){cancelAnimationFrame(frame);lastTime=0;if(!disposed&&!document.hidden&&visible){paint(performance.now());if(animate)frame=requestAnimationFrame(loop);}}
+  function resize(){const box=container!.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);el!.width=Math.max(1,Math.round(box.width*dpr));el!.height=Math.max(1,Math.round(box.height*dpr));wake();}
+  const resizeObserver=new ResizeObserver(resize);resizeObserver.observe(container);
+  const intersection=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;wake();},{threshold:0});intersection.observe(container);
+  document.addEventListener('visibilitychange',wake);resize();
+  return()=>{disposed=true;cancelAnimationFrame(frame);resizeObserver.disconnect();intersection.disconnect();document.removeEventListener('visibilitychange',wake);};
+ },[motion,reduced,city.signature,city.xp]);
+ function toggleMotion(){setMotion(v=>{try{localStorage.setItem('paperbound-city-motion',v?'off':'on');}catch{}return !v;});}
+ const active=(Object.keys(FEATURE_INFO) as CityFeature[]).filter(key=>city.features[key]);const detail=selected&&city.features[selected]?FEATURE_INFO[selected]:null;
+ return <section className="civilization" aria-label="Your growing civilization"><div className="city-header"><div><span><MapIcon size={14}/> YOUR CIVILIZATION</span><h3>{city.stageName}</h3></div><button aria-label={motion?'Pause city animation':'Play city animation'} aria-pressed={motion&&!reduced} disabled={reduced} onClick={toggleMotion}>{motion&&!reduced?<Pause size={15}/>:<Play size={15}/>}<span>{reduced?'Reduced motion':motion?'Pause':'Play'}</span></button></div><div className="city-canvas" ref={host}><canvas ref={canvas} width="480" height="300" role="img" aria-label={`${city.stageName}, ${city.homes} homes, ${city.fields} fields, ${city.trees} trees. ${city.features.boats?'A raft travels on the river.':''} Select a feature below for its discovery requirement.`} onClick={e=>{const rect=e.currentTarget.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width*480,y=(e.clientY-rect.top)/rect.height*300;const hit=[...hotspots.current].sort((a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y))[0];if(hit&&Math.hypot(hit.x-x,hit.y-y)<35)setSelected(hit.feature);}}/>{!supported&&<p className="city-fallback">Your civilization has {city.xp} XP. Scene drawing is unavailable in this browser; your progress still works.</p>}<span className="city-era">{era==='stone'?'STONE AGE':'BRONZE AGE'} · {event==='cold'?'COLD SNAP':event==='rain'?'WET SEASON':'CLEAR SKIES'}</span></div><div className="city-progress"><div><b>{city.xp.toLocaleString()} XP</b><span>{city.next?`${city.next.xp} XP · ${city.next.name}`:'Current era milestone complete'}</span></div><progress value={city.next?city.next.progress:1} max="1" aria-label="Progress toward next settlement stage"/>{city.next&&<p>{city.next.requirements.filter(r=>!r.met).map(r=>r.label).join(' · ')||'Ready for the next stage'}</p>}</div><div className="city-features" aria-label="Civilization features">{(Object.keys(FEATURE_INFO) as CityFeature[]).map(key=><button key={key} disabled={!city.features[key]} aria-pressed={selected===key} title={FEATURE_INFO[key].source} onClick={()=>setSelected(selected===key?null:key)}>{city.features[key]?'✓':'○'} {FEATURE_INFO[key].name}</button>)}</div>{detail&&<div className="city-feature-detail" role="status"><strong>{detail.name}</strong><p>{detail.description}</p><small>{detail.source}</small></div>}<details className="city-explainer"><summary>How does my civilization grow? <ChevronRight size={13}/></summary><p>Every unique discovered card contributes its base VP value as civilization XP. Repeat crafts add nothing. XP is separate from your session score and never spent on research. New settlement stages also need discoveries such as fire, shelter and cultivation.</p><p>{mode==='challenge'?'This sprint shows only discoveries made during the current expedition.':'Your saved collection restores your civilization when you return.'} Weather changes the scene, but never adds XP. {active.length} environmental features are unlocked.</p></details></section>;
+});
