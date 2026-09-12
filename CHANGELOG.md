@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 — Build a village with a purpose
+- New default Stone Age village mode with a winter-readiness mission, five resources, worker jobs, food upkeep and player-controlled days.
+- Discover recipes, spend resources to place six building types, select facilities to produce or recruit, and dismantle for partial refunds.
+- Kiln-gated pottery and installed tools replace endless duplicate crafting; terrain and housing create constraints.
+- Separate validated save, recovery without offline drain, and access to the original lab.
+- Thai responsive map and action panels, audio feedback, and end-to-end rule tests for a completable mission.
+
+
 ## 0.5.0 — A calmer Thai civilization lab
 - One-screen responsive shell: city left / crafting right in landscape, stacked in portrait; independently scrolling bounded card collection.
 - Thai interface and generated card names, bilingual search, self-hosted Itim font.
