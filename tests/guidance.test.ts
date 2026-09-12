@@ -29,7 +29,6 @@ test('ready filter respects facility dependencies and costs',()=>{
  const v=initial();v.known=['kiln','store'];v.stock={wood:100,stone:100,clay:100,food:100,water:100};
  assert.equal(buildReason(v,'kiln'),'ต้องมีกองไฟ');assert.equal(buildReason(v,'store'),'ติดตั้งภาชนะก่อน');v.plots[0]='fire';assert.equal(buildReason(v,'kiln'),null);v.pots=true;assert.equal(buildReason(v,'store'),null);v.stock.wood=0;assert.match(buildReason(v,'store')!,/ขาด/);
 });
-test('a ready building needs suitable free land and starvation overrides expansion advice',()=>{
+test('a ready building needs suitable free land',()=>{
  const v=initial();v.known=['farm'];v.plots[3]=v.plots[7]=v.plots[11]='farm';assert.equal(buildReason(v,'farm'),'ไม่มีพื้นที่ที่เหมาะสม');
- v.stock.food=0;v.jobs.forage=0;assert.equal(nextGoal(v).art,'food');assert.equal(nextGoal(v).tab,'people');
 });

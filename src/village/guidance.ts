@@ -2,7 +2,6 @@ import {BUILD,TILES,RESOURCES,act,assigned,canPay,foodNeed,goals,has,housing,mis
 export type Guidance={title:string;detail:string;label:string;art:Building|'pottery'|'food'|'wood';tab:string;recipe?:Recipe;building?:Building;celebrate?:boolean};
 export function nextGoal(v:Village):Guidance{
  const build=(b:Building,detail:string):Guidance=>{const d=BUILD[b];return {title:`สร้าง${d.name}`,detail,label:d.recipe&&!v.known.includes(d.recipe)?'ค้นพบสูตร':canPay(v,d.cost)?'เลือกจุดสร้าง':'จัดหาวัสดุ',art:b,tab:d.recipe&&!v.known.includes(d.recipe)?'discover':canPay(v,d.cost)?'build':'people',recipe:d.recipe&&!v.known.includes(d.recipe)?d.recipe:undefined,building:canPay(v,d.cost)?b:undefined};};
- if(dayForecast(v).shortage)return {title:'ช่วยกันหาอาหารก่อน',detail:'อาหารวันถัดไปไม่พอ ลองย้ายคนมาหาอาหาร',label:'แบ่งงาน',art:'food',tab:'people'};
  if(!has(v,'fire'))return build('fire','จุดเริ่มต้นของบ้าน และความรู้สำหรับเตาเผา');
  if(housing(v)<5)return build('shelter','สร้างบ้านให้เพื่อนใหม่ · ต้องการที่พักรวม 5 คน');
  if(v.people<5)return {title:'ชวนเพื่อนมาอยู่ด้วยกัน',detail:'อาหาร 4 ต่อคน · เพื่อนใหม่ช่วยเก็บทรัพยากรได้',label:'ต้อนรับเพื่อน',art:'shelter',tab:'people'};
