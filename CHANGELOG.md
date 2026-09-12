@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.0 — Illustrated 2D village and card merging
+
+- Replaced the 2.5D scene with a portrait-first illustrated 2D village that fills the play area.
+- Added swipeable land pages, tappable world resources, movable/rotatable buildings, and animated villagers.
+- Restored tactile card crafting: tap or drag two resource cards into the workbench and merge them.
+- Recipe results stay mysterious until their research timer finishes, preserving experimentation and discovery.
+- Kept detailed management in drawers so the village remains the visual focus on mobile.
+
 ## 0.12.0 — The world comes first
 - Make the portrait village fill the playable screen and move cards/tools into a 60px peek drawer that opens by tap or upward swipe; selecting a placeable card collapses it again.
 - Add a real research queue: card pairs reserve one unit each, take 45–90 seconds, finish while away, and reveal recipes only on completion. Fire and kiln expand capacity from one to three queued topics.
