@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0 — A world you can touch
+- Replace permanent block grid with interactive Three.js low-poly models viewed through an orthographic 2.5D camera.
+- Drag buildings to relocate, tap models for commands, and drag illustrated building/decor cards into the world.
+- SVG resource cards and toolbar icons support picking and experiment-slot drops.
+- Ambient villagers, swaying trees, fire and smoke; pause/reduced-motion support and accessible object-list fallback.
+- Preserve existing village saves and rules; account/cloud work deferred following the requested visual priority.
+
+
 ## 0.7.0 — My cozy village
 - Name your village and neighbors; relocate buildings free while respecting terrain.
 - Separate decoration layer with full refunds, five decoration types and three one-time neighbor requests.
