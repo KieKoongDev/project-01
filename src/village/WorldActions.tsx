@@ -9,7 +9,7 @@ export function WorldActions({v,tile,dispatch,onTab,onRecipe,onMove,onClose}:{v:
  const potteryReason=!canPay(v,RECIPES.pottery.cost)?'ขาด '+missing(v,RECIPES.pottery.cost):null;
  return <section ref={panel} tabIndex={-1} className="world-actions" aria-label={`ใช้งาน${BUILD[b].name}`} onKeyDown={e=>{if(e.key==='Escape')onClose();}}>
  <div className="world-action-title"><ItemArt kind={b}/><span><strong>{BUILD[b].name}</strong><small>{status.label}</small></span><button className="icon-button" aria-label="ปิดเมนูอาคาร" onClick={onClose}><X size={18}/></button></div>
- <div className="world-action-buttons">
+ <div className="world-action-buttons">{b==='kiln'&&<button onClick={()=>onTab('requests')}>ถ่าน · อิฐ · เควสต์</button>}
  {b==='shelter'?<button disabled={!!recruitReason} title={recruitReason??'ใช้อาหาร 4'} onClick={()=>dispatch({type:'recruit'})}><UserPlus size={18}/>{recruitReason??'รับเพื่อน · อาหาร 4'}</button>:b==='kiln'&&!v.pots?<button disabled={!!v.craft||v.known.includes('pottery')&&!!potteryReason} onClick={()=>v.known.includes('pottery')?dispatch({type:'queue-craft',item:'pottery',now:Date.now()}):onRecipe('pottery')}><FlaskConical size={18}/>{v.craft?'โต๊ะงานไม่ว่าง':!v.known.includes('pottery')?'เรียนรู้ภาชนะ':potteryReason??'เข้าคิวทำภาชนะ · 90 วิ'}</button>:<button onClick={()=>onTab(status.tab)}><Users size={18}/>{b==='farm'||b==='lumber'?'จัดคนทำงาน':'ดูการใช้งาน'}</button>}
  <button aria-label="ย้ายอาคารฟรี" onClick={onMove}><Move size={18}/><span>ย้าย</span></button><button aria-label="รายละเอียดอาคาร" onClick={()=>onTab('object')}><ArrowUpRight size={18}/><span>เพิ่มเติม</span></button>
  </div></section>;

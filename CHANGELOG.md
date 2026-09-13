@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.0 — First civilization industry chapter
+
+- Three sequential quests unlock charcoal and brick processing; rewards can be claimed once.
+- Kiln batches reserve inputs, finish while away, and share kiln availability with crafting. Active batches prevent demolition.
+- Industry inventory and progress survive old-save migration; full outputs pause new batches.
+- Workers now animate near their assigned workplace, including expanded land. This is workplace visualization, not simulated hauling/pathfinding.
+- Open the kiln or Requests menu for the chapter. Metal eras and brick-consuming construction are not yet available.
+
 ## 0.14.0 — Recipe catalog and material assistant
 
 - Searchable illustrated catalog with 10 buildings, ingredient counts, readiness filtering, and explicit research prerequisites.

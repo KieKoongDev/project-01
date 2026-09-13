@@ -1,3 +1,4 @@
+import {emptyIndustry,validIndustry,type Industry} from './industry.ts';
 import {createNodes,LAND_COSTS,nodeCapacity,nodeDuration,NODE_TYPES,type ResourceNode} from './land.ts';
 export const RESOURCES=['wood','stone','clay','food','water'] as const;
 export type Resource=typeof RESOURCES[number];
@@ -58,7 +59,7 @@ export const FIND_IDS=['wood-bundle','clay-cache','flowers','visitor'] as const;
 export type FindId=typeof FIND_IDS[number];
 export const DEFAULT_NAMES=['มะลิ','ต้นกล้า','ใบชา','ข้าวปั้น','อุ่นใจ'];
 export const validName=(value:unknown,max:number)=>typeof value==='string'&&[...value.trim()].length>0&&[...value.trim()].length<=max&&!/[\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/.test(value);
-export type Village={autoBuild?:Building|null;rotations:number[];nodes:ResourceNode[];research:ResearchTask[];assignments:(Job|null)[];crateReadyAt:number;decorationGifts:Partial<Record<Decoration,number>>;giftedTiles:number[];lastFind:FindId|null;version:1;name:string;names:string[];decorations:(Decoration|null)[];completed:RequestId[];day:number;stock:Stock;people:number;jobs:Record<Job,number>;plots:(Building|null)[];known:Recipe[];axe:boolean;pots:boolean;won:boolean;winter:boolean;message:string;log:string[];lastActiveAt:number;productionCarryMs:number;craft:CraftTask|null;awayReport:string|null};
+export type Village={industry?:Industry;autoBuild?:Building|null;rotations:number[];nodes:ResourceNode[];research:ResearchTask[];assignments:(Job|null)[];crateReadyAt:number;decorationGifts:Partial<Record<Decoration,number>>;giftedTiles:number[];lastFind:FindId|null;version:1;name:string;names:string[];decorations:(Decoration|null)[];completed:RequestId[];day:number;stock:Stock;people:number;jobs:Record<Job,number>;plots:(Building|null)[];known:Recipe[];axe:boolean;pots:boolean;won:boolean;winter:boolean;message:string;log:string[];lastActiveAt:number;productionCarryMs:number;craft:CraftTask|null;awayReport:string|null};
 export const initial=(now=Date.now()):Village=>({rotations:Array(12).fill(0),nodes:createNodes(0,now),research:[],assignments:['forage','wood',null,null,null],crateReadyAt:now,decorationGifts:{},giftedTiles:[],lastFind:null,version:1,name:'หมู่บ้านริมธาร',names:[...DEFAULT_NAMES],decorations:Array(12).fill(null),completed:[],day:1,stock:{wood:9,stone:6,clay:4,food:12,water:6},people:2,jobs:{forage:1,wood:1,stone:0,clay:0,water:0,farm:0},plots:Array(12).fill(null),known:[],axe:false,pots:false,won:false,winter:false,message:'เป้าหมายแรก: ทดลองไม้ + หิน แล้ววางกองไฟในหมู่บ้าน',log:[],lastActiveAt:now,productionCarryMs:0,craft:null,awayReport:null});
 export const has=(s:Village,b:Building)=>s.plots.includes(b);
 export const housing=(s:Village)=>2+s.plots.filter(b=>b==='shelter').length*2;
@@ -73,7 +74,7 @@ export const goals=(s:Village)=>[{name:'มีผู้ตั้งถิ่น�
 function pay(s:Village,c:Cost){for(const r of RESOURCES)s.stock[r]-=c[r]??0;}
 function message(s:Village,text:string){s.message=text;return s;}
 function rebuildJobs(s:Village){for(const j of JOBS)s.jobs[j]=0;for(const job of s.assignments.slice(0,s.people))if(job)s.jobs[job]++;}
-export type Action={type:'auto-build';building:Building|null}|{type:'expand'}|{type:'open-crate';now:number;roll:number}|{type:'rotate';tile:number}|{type:'collect-node';id:string}|{type:'upgrade-node';id:string}|{type:'toggle-node-auto';id:string}|{type:'rename';name:string}|{type:'rename-person';person:number;name:string}|{type:'move';from:number;to:number}|{type:'decorate';decoration:Decoration;tile:number}|{type:'remove-decoration';tile:number}|{type:'fulfill';request:RequestId}|{type:'experiment';a:Resource;b:Resource}|{type:'queue-research';a:Resource;b:Resource;now:number}|{type:'build';building:Building;tile:number}|{type:'demolish';tile:number}|{type:'assign';job:Job;delta:1|-1}|{type:'assign-person';person:number;job:Job|null}|{type:'recruit'}|{type:'produce';item:'axe'|'pottery'}|{type:'queue-craft';item:'axe'|'pottery';now:number}|{type:'sync';now:number}|{type:'clear-away'}|{type:'day'}|{type:'winter'};
+export type Action={type:'industry-start';kind:'charcoal'|'brick';now:number}|{type:'industry-claim'}|{type:'auto-build';building:Building|null}|{type:'expand'}|{type:'open-crate';now:number;roll:number}|{type:'rotate';tile:number}|{type:'collect-node';id:string}|{type:'upgrade-node';id:string}|{type:'toggle-node-auto';id:string}|{type:'rename';name:string}|{type:'rename-person';person:number;name:string}|{type:'move';from:number;to:number}|{type:'decorate';decoration:Decoration;tile:number}|{type:'remove-decoration';tile:number}|{type:'fulfill';request:RequestId}|{type:'experiment';a:Resource;b:Resource}|{type:'queue-research';a:Resource;b:Resource;now:number}|{type:'build';building:Building;tile:number}|{type:'demolish';tile:number}|{type:'assign';job:Job;delta:1|-1}|{type:'assign-person';person:number;job:Job|null}|{type:'recruit'}|{type:'produce';item:'axe'|'pottery'}|{type:'queue-craft';item:'axe'|'pottery';now:number}|{type:'sync';now:number}|{type:'clear-away'}|{type:'day'}|{type:'winter'};
 function productionCycle(s:Village){
  if(s.autoBuild&&!canPay(s,BUILD[s.autoBuild].cost)){const cost=BUILD[s.autoBuild].cost;const missingResource=RESOURCES.find(r=>s.stock[r]<(cost[r]??0));if(missingResource){s.assignments[0]=missingResource==='food'?'forage':missingResource;rebuildJobs(s);}}
 
@@ -84,6 +85,20 @@ function productionCycle(s:Village){
 }
 export function act(state:Village,action:Action):Village{
  const s:Village=structuredClone(state);
+ s.industry??=emptyIndustry();
+ if(action.type==='industry-start'){
+ const p=s.industry,brick=action.kind==='brick',cost=brick?{clay:4}:{wood:4};
+ if(!Number.isSafeInteger(action.now)||action.now<s.lastActiveAt||!has(s,'kiln')||p.task||s.craft)return message(s,'ต้องมีเตาเผาว่างก่อนเริ่มผลิต');
+ if(p.claimed<(brick?2:1))return message(s,'รับรางวัลบทก่อนหน้าเพื่อเปิดสูตร');
+ if(!canPay(s,cost)||(brick&&p.charcoal<2)||p[action.kind]>38)return message(s,'วัสดุไม่พอหรือที่เก็บผลผลิตเต็ม');
+ pay(s,cost);if(brick)p.charcoal-=2;p.task={kind:action.kind,finishAt:action.now+(brick?120000:60000)};return message(s,brick?'กำลังเผาอิฐ · ดิน 4 + ถ่าน 2 → อิฐ 2':'กำลังเผาถ่าน · ไม้ 4 → ถ่าน 2');
+ }
+ if(action.type==='industry-claim'){
+ const p=s.industry,ready=p.claimed===0?has(s,'kiln'):p.claimed===1?p.charcoal>=2:p.claimed===2?p.brick>=2:false;
+ if(!ready)return message(s,'ทำเป้าหมายบทนี้ให้ครบก่อน');
+ p.claimed++;if(p.claimed===1)s.stock.wood+=Math.max(0,Math.min(4,storageCapacity(s)-s.stock.wood));if(p.claimed===2)s.stock.clay+=Math.max(0,Math.min(4,storageCapacity(s)-s.stock.clay));if(p.claimed===3)s.decorationGifts.lantern=(s.decorationGifts.lantern??0)+1;
+ return message(s,'รับรางวัลความก้าวหน้าแล้ว · เปิดดูบทต่อไป');
+ }
  if(action.type==='auto-build'){s.autoBuild=action.building;return message(s,action.building?'ผู้ช่วยจะจัดงานคนแรกเพื่อเก็บวัสดุที่ขาดทุก 30 วิ · คนอื่นทำงานเดิม · วางอาคารเองเมื่อพร้อม':'หยุดเตรียมวัสดุแล้ว');}
  if(action.type==='open-crate'){
   if(!Number.isFinite(action.now)||!Number.isFinite(action.roll)||action.roll<0||action.roll>=1)return s;if(action.now<s.crateReadyAt)return message(s,`ทีมสำรวจยังเดินทางอยู่ · กลับใน ${Math.ceil((s.crateReadyAt-action.now)/1000)} วินาที`);s.crateReadyAt=action.now+CRATE_COOLDOWN_MS;
@@ -115,6 +130,7 @@ export function act(state:Village,action:Action):Village{
    }
   }
  let productive=0;for(let i=0;i<cycles;i++)if(productionCycle(s))productive++;
+  if(s.industry.task&&action.now>=s.industry.task.finishAt){s.industry[s.industry.task.kind]+=2;s.industry.task=null;s.message='เตาเผาผลิตเสร็จแล้ว! รับผลผลิตเข้าคลังอุตสาหกรรม';}
   const completedResearch=s.research.filter(t=>action.now>=t.finishAt);s.research=s.research.filter(t=>action.now<t.finishAt);
   for(const task of completedResearch)if(!s.known.includes(task.recipe))s.known.push(task.recipe);
   if(completedResearch.length)s.message=`วิจัยสำเร็จ: ${completedResearch.map(t=>RECIPES[t.recipe].name).join(' · ')}! เปิดสมุดสูตรเพื่อสร้างได้เลย`;
@@ -166,6 +182,7 @@ export function act(state:Village,action:Action):Village{
  }
  if(action.type==='demolish'){
  const b=s.plots[action.tile];if(!b)return s;
+ if(b==='kiln'&&(s.industry.task||s.craft))return message(s,'รอเตาเผาผลิตเสร็จก่อนรื้อ');
  if(b==='shelter'&&housing(s)-2<s.people)return message(s,'ยังรื้อไม่ได้ คนจะไม่มีที่พัก');
  if(b==='farm'&&s.jobs.farm>s.plots.filter(x=>x==='farm').length-1)return message(s,'ย้ายคนออกจากงานทำไร่ก่อนรื้อ');
  for(const r of RESOURCES)s.stock[r]+=Math.floor((BUILD[b].cost[r]??0)/2);s.plots[action.tile]=null;return message(s,'รื้อแล้ว ได้วัสดุก่อสร้างคืนครึ่งหนึ่ง (ปัดลง)');
@@ -180,7 +197,7 @@ export function act(state:Village,action:Action):Village{
  if(s.people>=5)return message(s,'ต้นแบบนี้รองรับคน 5 คน');if(housing(s)<=s.people)return message(s,'สร้างเพิงพักเพิ่มก่อนรับคน');if(!canPay(s,{food:4}))return message(s,'ต้องใช้อาหาร 4 เพื่อต้อนรับคนใหม่');pay(s,{food:4});s.people++;return message(s,'ยินดีต้อนรับ! มีคนว่างเพิ่ม 1 คน เลือกงานให้เขาได้เลย');
  }
  if(action.type==='queue-craft'){
- const key=action.item;if(s.craft)return message(s,'โต๊ะงานกำลังผลิตอย่างอื่นอยู่');if(!Number.isFinite(action.now))return s;
+ const key=action.item;if(s.industry.task)return message(s,'เตาเผากำลังผลิตวัสดุ');if(s.craft)return message(s,'โต๊ะงานกำลังผลิตอย่างอื่นอยู่');if(!Number.isFinite(action.now))return s;
  if(!s.known.includes(key))return message(s,'ค้นพบสูตรก่อนผลิต');if(key==='pottery'&&!has(s,'kiln'))return message(s,'ต้องมีเตาเผาเพื่อผลิตภาชนะ');if(key==='axe'?s.axe:s.pots)return message(s,'ติดตั้งแล้ว ไม่ต้องผลิตซ้ำ');if(!canPay(s,RECIPES[key].cost))return message(s,'ขาด '+missing(s,RECIPES[key].cost));pay(s,RECIPES[key].cost);s.craft={item:key,startedAt:action.now,finishAt:action.now+CRAFT_TIME_MS};return message(s,`เริ่มทำ${RECIPES[key].name} · วัตถุดิบถูกจองแล้ว`);
  }
  if(action.type==='produce'){
@@ -203,6 +220,7 @@ export function restore(raw:unknown):Village|null{
  if(s.version!==1||!integer(s.day)||s.day<1||!integer(s.people,5)||s.people<2||!s.stock||!RESOURCES.every(r=>integer(s.stock[r]))||!s.jobs||!JOBS.every(j=>integer(s.jobs[j],5))||assigned(s)>s.people||!Array.isArray(s.plots)||![12,24,36].includes(s.plots.length)||!s.plots.every((b,i)=>b===null||BUILDINGS.includes(b)&&(!BUILD[b].terrain||BUILD[b].terrain===TILES[i]))||!Array.isArray(s.known)||!s.known.every(k=>Object.hasOwn(RECIPES,k)))return null;
  if(housing(s)<s.people||s.jobs.farm>s.plots.filter(x=>x==='farm').length)return null;
  const legacy=s as Partial<Village>;
+ if(legacy.industry!==undefined&&!validIndustry(legacy.industry))return null;
  if(legacy.name!==undefined&&!validName(legacy.name,32)||legacy.names!==undefined&&(!Array.isArray(legacy.names)||legacy.names.length!==5||!legacy.names.every(n=>validName(n,20)))||legacy.decorations!==undefined&&(!Array.isArray(legacy.decorations)||legacy.decorations.length!==s.plots.length||!legacy.decorations.every(d=>d===null||Object.hasOwn(DECORATIONS,d)))||legacy.completed!==undefined&&(!Array.isArray(legacy.completed)||!legacy.completed.every(k=>Object.hasOwn(REQUESTS,k))))return null;
  if(legacy.assignments!==undefined&&(!Array.isArray(legacy.assignments)||legacy.assignments.length!==5||!legacy.assignments.every((j,i)=>(j===null||JOBS.includes(j))&&(i<s.people||j===null))||JOBS.some(j=>legacy.assignments!.filter((v,i)=>i<s.people&&v===j).length!==s.jobs[j])))return null;
  if(legacy.crateReadyAt!==undefined&&!integer(legacy.crateReadyAt,Number.MAX_SAFE_INTEGER)||legacy.lastFind!==undefined&&legacy.lastFind!==null&&!FIND_IDS.includes(legacy.lastFind)||legacy.decorationGifts!==undefined&&(typeof legacy.decorationGifts!=='object'||Object.entries(legacy.decorationGifts).some(([d,n])=>!Object.hasOwn(DECORATIONS,d)||!integer(n,100)))||legacy.giftedTiles!==undefined&&(!Array.isArray(legacy.giftedTiles)||new Set(legacy.giftedTiles).size!==legacy.giftedTiles.length||legacy.giftedTiles.some(i=>!integer(i,s.plots.length-1)||!s.decorations[i])))return null;
@@ -215,7 +233,7 @@ export function restore(raw:unknown):Village|null{
  const now=Date.now(),lastActiveAt=integer(legacy.lastActiveAt,Number.MAX_SAFE_INTEGER)?legacy.lastActiveAt!:now,productionCarryMs=integer(legacy.productionCarryMs,PRODUCTION_CYCLE_MS-1)?legacy.productionCarryMs!:0,craft=legacy.craft&&['axe','pottery'].includes(legacy.craft.item)&&Number.isFinite(legacy.craft.startedAt)&&Number.isFinite(legacy.craft.finishAt)&&legacy.craft.finishAt>=legacy.craft.startedAt?legacy.craft:null;
  const migratedAssignments=legacy.assignments??[...JOBS.flatMap(j=>Array(s.jobs[j]).fill(j)),...Array(5-assigned(s)).fill(null)] as (Job|null)[];
  if(legacy.autoBuild!==undefined&&legacy.autoBuild!==null&&!BUILDINGS.includes(legacy.autoBuild))return null;
- return {autoBuild:legacy.autoBuild??null,rotations:legacy.rotations??Array(s.plots.length).fill(0),nodes:legacy.nodes??Array.from({length:s.plots.length/12},(_,i)=>createNodes(i,now)).flat(),research:legacy.research??[],assignments:migratedAssignments,crateReadyAt:legacy.crateReadyAt??now,decorationGifts:legacy.decorationGifts??{},giftedTiles:legacy.giftedTiles??[],lastFind:legacy.lastFind??null,version:1,name:legacy.name?.trim()??initial().name,names:legacy.names?.map(n=>n.trim())??[...DEFAULT_NAMES],decorations:legacy.decorations??Array(s.plots.length).fill(null),completed:[...new Set(legacy.completed??[])],day:s.day,stock:Object.fromEntries(RESOURCES.map(r=>[r,s.stock[r]])) as Stock,people:s.people,jobs:Object.fromEntries(JOBS.map(j=>[j,s.jobs[j]])) as Record<Job,number>,plots:[...s.plots],known:[...new Set(s.known)],axe:s.axe===true,pots:s.pots===true,won:s.won===true,winter:s.winter===true,log:Array.isArray(s.log)?s.log.filter(x=>typeof x==='string').slice(0,20):[],message:'กลับบ้านแล้ว ♡ ระบบจะคำนวณงานที่ทำต่อระหว่างพัก',lastActiveAt,productionCarryMs,craft,awayReport:typeof legacy.awayReport==='string'?legacy.awayReport:null};
+ return {industry:legacy.industry?structuredClone(legacy.industry):emptyIndustry(),autoBuild:legacy.autoBuild??null,rotations:legacy.rotations??Array(s.plots.length).fill(0),nodes:legacy.nodes??Array.from({length:s.plots.length/12},(_,i)=>createNodes(i,now)).flat(),research:legacy.research??[],assignments:migratedAssignments,crateReadyAt:legacy.crateReadyAt??now,decorationGifts:legacy.decorationGifts??{},giftedTiles:legacy.giftedTiles??[],lastFind:legacy.lastFind??null,version:1,name:legacy.name?.trim()??initial().name,names:legacy.names?.map(n=>n.trim())??[...DEFAULT_NAMES],decorations:legacy.decorations??Array(s.plots.length).fill(null),completed:[...new Set(legacy.completed??[])],day:s.day,stock:Object.fromEntries(RESOURCES.map(r=>[r,s.stock[r]])) as Stock,people:s.people,jobs:Object.fromEntries(JOBS.map(j=>[j,s.jobs[j]])) as Record<Job,number>,plots:[...s.plots],known:[...new Set(s.known)],axe:s.axe===true,pots:s.pots===true,won:s.won===true,winter:s.winter===true,log:Array.isArray(s.log)?s.log.filter(x=>typeof x==='string').slice(0,20):[],message:'กลับบ้านแล้ว ♡ ระบบจะคำนวณงานที่ทำต่อระหว่างพัก',lastActiveAt,productionCarryMs,craft,awayReport:typeof legacy.awayReport==='string'?legacy.awayReport:null};
 }
 export const decorationUnlocked=(s:Village,d:Decoration)=>d==='bench'?s.completed.includes('garden'):d==='lantern'?s.completed.includes('light'):true;
 export function requestMissing(s:Village,id:RequestId):string|null{
