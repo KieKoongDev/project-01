@@ -1,0 +1,11 @@
+export const LAND_NAMES=['หมู่บ้านริมธาร','ป่าสนตะวันตก','เนินหินตะวันออก'];
+export const landOffset=(chunk:number)=>chunk===1?-8:chunk===2?8:0;
+export const LAND_COSTS=[{wood:12,stone:8},{wood:20,stone:16}];
+export const NODE_TYPES=['wood','stone','clay'] as const;
+export type NodeResource=typeof NODE_TYPES[number];
+export type ResourceNode={id:string;chunk:number;resource:NodeResource;readyAt:number;stored:number;level:1|2;auto:boolean};
+export const NODE_NAMES={wood:'ต้นไม้เก็บเกี่ยว',stone:'แหล่งหิน',clay:'แหล่งดินเหนียว'};
+export const nodeDuration=(n:ResourceNode)=>n.level===2?30_000:60_000;
+export const nodeCapacity=(n:ResourceNode)=>n.level===2?12:6;
+export const nodePosition=(n:ResourceNode):[number,number,number]=>[landOffset(n.chunk)+(NODE_TYPES.indexOf(n.resource)-1)*2.3,0,-3.8];
+export const createNodes=(chunk:number,now:number):ResourceNode[]=>NODE_TYPES.map(resource=>({id:`land-${chunk}-${resource}`,chunk,resource,readyAt:now+60_000,stored:0,level:1,auto:false}));

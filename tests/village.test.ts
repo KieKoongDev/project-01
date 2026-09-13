@@ -31,7 +31,7 @@ test('placement, worker limits, housing and demolition cannot bypass requirement
  s=act(s,{type:'assign',job:'farm',delta:1});assert.equal(act(s,{type:'demolish',tile:3}).plots[3],'farm');
 });
 test('farming consumes water, people consume food, and saves never advance time offline',()=>{
- let s=initial();s.plots[3]='farm';s.jobs={forage:0,wood:0,stone:0,clay:0,water:1,farm:1};s.stock.water=0;s.stock.food=0;
+ let s=initial();s.plots[3]='farm';s.jobs={forage:0,wood:0,stone:0,clay:0,water:1,farm:1};s.assignments=['water','farm',null,null,null];s.stock.water=0;s.stock.food=0;
  const end=act(s,{type:'day'});assert.equal(end.stock.water,1);assert.equal(end.stock.food,4);assert.equal(end.day,2);
  const restored=restore(JSON.parse(JSON.stringify(end)))!;assert.deepEqual(restored.stock,end.stock);assert.equal(restored.day,2);
  assert.equal(restore({...s,people:99}),null);assert.equal(restore({...s,stock:{...s.stock,wood:-1}}),null);assert.equal(restore({...s,plots:['oops']}),null);

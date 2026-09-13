@@ -1,5 +1,55 @@
 # Changelog
 
+## 0.15.0 — First civilization industry chapter
+
+- Three sequential quests unlock charcoal and brick processing; rewards can be claimed once.
+- Kiln batches reserve inputs, finish while away, and share kiln availability with crafting. Active batches prevent demolition.
+- Industry inventory and progress survive old-save migration; full outputs pause new batches.
+- Workers now animate near their assigned workplace, including expanded land. This is workplace visualization, not simulated hauling/pathfinding.
+- Open the kiln or Requests menu for the chapter. Metal eras and brick-consuming construction are not yet available.
+
+## 0.14.0 — Recipe catalog and material assistant
+
+- Searchable illustrated catalog with 10 buildings, ingredient counts, readiness filtering, and explicit research prerequisites.
+- Added quarry, well, clayworks and orchard with non-stacking worker production bonuses; these reuse existing research unlocks and base art.
+- Optional persisted material assistant reassigns the first villager per production cycle; no instant resources or automatic building. Materials remain shared, not reserved.
+- Ready-to-place prompt on the world and catalog; cancel preparation at any time. Offline work retains its four-hour cap.
+
+## 0.13.1 — Villagers and cleaner land
+
+- Added illustrated full-body villagers, animated limbs and workplace badges shared by the world and assignment cards.
+- Removed rotation controls and rotation rendering; retained old save data for compatibility.
+- Hid idle placement tiles, fixed drag hit-testing on empty land and keyboard activation for buildings.
+- Fixed working indicators to use each person's actual assignment and corrected outdated land instructions.
+- Audit: expansion remains capped at 36 plots; research is sequential (capacity 1–3). House upgrades and multiple house types are not implemented yet.
+
+## 0.13.0 — Illustrated 2D village and card merging
+
+- Replaced the 2.5D scene with a portrait-first illustrated 2D village that fills the play area.
+- Added swipeable land pages, tappable world resources, movable/rotatable buildings, and animated villagers.
+- Restored tactile card crafting: tap or drag two resource cards into the workbench and merge them.
+- Recipe results stay mysterious until their research timer finishes, preserving experimentation and discovery.
+- Kept detailed management in drawers so the village remains the visual focus on mobile.
+
+## 0.12.0 — The world comes first
+- Make the portrait village fill the playable screen and move cards/tools into a 60px peek drawer that opens by tap or upward swipe; selecting a placeable card collapses it again.
+- Add a real research queue: card pairs reserve one unit each, take 45–90 seconds, finish while away, and reveal recipes only on completion. Fire and kiln expand capacity from one to three queued topics.
+- Add an interactive 2.5D research table with an accessible projected countdown badge and a non-WebGL object-list fallback.
+- Assign named villagers one by one by tapping or dragging illustrated person cards to job cards. Each assignment remains the source for existing bounded 30-second AFK production.
+- Add a free three-minute exploration parcel with bounded resource, decoration, or housed-visitor outcomes. It has no currency purchase, pity system, duplicate collection, or monetization.
+- Preserve old saves by deriving named assignments from prior job totals and defaulting new queue/exploration fields; validate queue order, recipes, rewards and gifted decoration refunds.
+- Add five focused tests; 58 total tests and production build pass. Cloud localhost visual inspection was blocked, so real-phone portrait/gesture QA remains required.
+
+## 0.11.0 — More room to grow
+- Unlock two adjoining 12-slot areas with wood and stone, up to 36 buildable slots; preserve original tile identities and saved decorations.
+- Area shortcuts and zoom controls, plus an explicit hand mode for one-finger pan/two-finger zoom without dragging buildings.
+- Rotate buildings in 90-degree steps and relocate between owned areas while preserving orientation and terrain constraints.
+- Nine bounded resource objects across three areas: timed wood, stone and clay with local output, collection, upgrades and opt-in automatic delivery.
+- Existing worker production remains compatible; ore mining, per-building recipe inventories and multi-slot research are future work, not part of this release.
+- Reconcile time before management actions; preserve above-cap legacy stock instead of truncating it.
+- Add six domain tests for expansion, geometry, orientation, object cooldowns, collection, automation and save validation. Real-device pan/pinch/visual QA remains required.
+
+
 ## 0.10.0 — The village works while you rest
 - Remove the end-day control from the playable village and run assigned jobs in automatic 30-second production cycles.
 - Reconcile elapsed time from saved timestamps on return, capped at four hours and bounded by storage capacity; no offline food drain or villager death.
